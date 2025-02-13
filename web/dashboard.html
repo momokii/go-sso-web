@@ -1,0 +1,610 @@
+{{ template "components/_header-dashboard" . }}
+<body style="height: auto;">
+    <div class="container py-3">
+        <!-- Header Section -->
+        <header class="d-flex align-items-center mb-4">
+            <img src="/web/images/klan-sso-logo.png" alt="Logo" class="me-3 rounded-circle" style="max-width: 100px; max-height: 100px;">
+            <div>
+                <h1 class="h3 mb-3">Kelana's SSO Dashboard</h1>
+                <p class="text-muted">
+                    This SSO dashboard contains several mini web-based projects that I,<b>Kelana Chandra Helyandika</b>, have been working on.  
+                    For now, it’s all web-based (for fun!), and my portfolio website or personal profile can be visited using the button below for more information about me and the other project that i working on but not included on here yet (or not on web based project app).
+                </p>
+                <p class="text-muted mt-1">
+                    For projects requiring authentication, you need to log in first using the provided authentication feature.  
+                    All web apps with authentication will utilize a centralized login through this SSO. With one profile, you can access multiple web apps (if authentication is required for that web).
+                </p>
+                <a href="https://kelanach.xyz" target="_blank" class="btn btn-primary mt-1 d-inline-block"><b>Visit My Portfolio</b></a>
+            </div>
+        </header>
+
+        <!-- User Info Section -->
+        <div class="card mb-4">
+            <div class="card-body d-flex align-items-center">
+                <!-- LOGIN SECTION -->
+                <div id="logged-in" class="d-none">
+                    <div class="flex-grow-1">
+                        <h5 class="card-title mb-2 text-success">You are logged in!</h5>
+                        <p class="card-text mb-1">Your Username: <strong id="username">-</strong></p>
+                        <p class="card-text text-muted">You can edit your username or password, or log out below.</p>
+                    </div>
+                    <div class="mt-2">
+                        <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editUsernameModal">Edit Username</button>
+                        <button class="btn btn-outline-secondary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editPasswordModal">Edit Password</button>
+                        <button class="btn btn-danger btn-sm" id="logout" type="button">Logout</button>
+                    </div>
+                </div>
+                
+                <!-- NOT LOGIN SECTION -->
+                <div id="not-logged-in">
+                    <div class="flex-grow-1">
+                        <h5 class="card-title mb-2 text-danger">You are not logged in</h5>
+                        <p class="card-text mb-1"><strong>Please log in</strong> to access all applications that require authentication.</p>
+                        <p class="card-text text-muted">Click the button below to proceed to the login page.</p>
+                    </div>
+                    <div class="mt-2">
+                        <a href="/login" class="btn btn-outline-primary btn-sm">Login Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications Section -->
+        <div class="row g-3">
+
+            <!-- GOCCHAT -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title">GoChat</h5>
+                            <p class="card-text" style="text-align: justify;">A web chat application built with WebSocket technology, featuring real-time communication, user authentication, and customizable chat rooms. Includes an exciting new feature: a simulated dating app chat experience with AI integration.</p>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-2">
+                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalGoChat">Info</button>
+                            <button class="btn btn-outline-success btn-sm" id="gochat" type="button">Visit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GABUT PROJECT -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title">Gabut Project</h5>
+                            <p class="card-text">
+                                A creative web application exploring the potential of Large Language Models (LLMs) like OpenAI and Anthropic.
+                                Features include account roasts, website analyses, story generation, and creative content creation.
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalGabutProject">Info</button>
+                            <button class="btn btn-outline-success btn-sm" type="button" id="llm">Visit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ginvexpress -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title">Thesis Project - GinVExpress</h5>
+                            <p class="card-text">
+                                A comprehensive comparison of API performance between Golang Gin and Node.js Express, tested with SQL and NoSQL
+                                databases, using K6 and deployed on Google Cloud Run.
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalGinvexpress">Info</button>
+                            <a href="https://ginvexpress.site" target="_blank" class="btn btn-outline-success btn-sm">Visit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEMPLATE HERE CARD APP-->
+            <!-- <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title">-</h5>
+                            <p class="card-text">
+                                -
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalGinvexpress">Info</button>
+                            <a href="/" target="_blank" class="btn btn-outline-success btn-sm">Visit</a>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+
+        </div>
+
+        <!-- Modal -->
+        <!-- Modal for Edit Username -->
+        <div class="modal fade" id="editUsernameModal" tabindex="-1" aria-labelledby="editUsernameModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editUsernameModalLabel">Edit Username</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editUsernameForm">
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" 
+                                value="username" id="usernameEditCurrentInput"
+                                disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="usernameEditInput" class="form-label">New Username</label>
+                                <input type="text" class="form-control" id="usernameEditInput" placeholder="Enter New Username" 
+                                value="username"
+                                required maxlength="50" minlength="1">
+                            </div>
+                            <button type="submit" class="btn btn-success">Edit Username</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Modal for Edit Password -->
+        <div class="modal fade" id="editPasswordModal" tabindex="-1" aria-labelledby="editPasswordModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editPasswordModalLabel">Edit Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editPasswordForm">
+                            <div class="mb-3">
+                                <label for="passwordEditNowInput" class="form-label">Password Now</label>
+                                <input type="password" class="form-control"  id="passwordEditNowInput"
+                                placeholder="Enter Current Password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordEditNewInput" class="form-label">New Password</label>
+                                <input type="password" class="form-control"  id="passwordEditNewInput"
+                                placeholder="Enter New Password" required minlength="6">
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordEditConfirmInput" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control"  id="passwordEditConfirmInput"
+                                placeholder="Enter Confirm New Password" required minlength="6">
+                            </div>
+                            <button type="submit" class="btn btn-success">Edit Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL GO CHAT -->
+        <div class="modal fade" id="infoModalGoChat" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">GoChat - App Information</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-center mb-3">GoChat – Your All-in-One Chat Platform</h5>
+                        <p class="text-muted text-center">A seamless real-time communication experience powered by
+                            modern technology.</p>
+
+                        <h6 class="mt-4">Project Overview</h6>
+                        <p>
+                            GoChat is a personal project that demonstrates the implementation of WebSocket technology to
+                            deliver a smooth real-time chat experience.
+                            Built using <strong>Golang</strong> with the <strong>Fiber</strong> framework,
+                            <strong>PostgreSQL</strong>, and a clean user interface utilizing <strong>HTML,
+                                Bootstrap</strong>, and <strong>jQuery</strong>.
+                        </p>
+
+                        <h6 class="mt-4">Key Features</h6>
+                        <ul>
+                            <li>
+                                <strong>User Authentication and Personalization:</strong>
+                                <br>Secure login functionality and customizable user profiles.
+                            </li>
+                            <li class="mt-2">
+                                <strong>Dynamic Chat Rooms:</strong>
+                                <br>Create and customize chat rooms with options for public or private settings.
+                            </li>
+                            <li class="mt-2">
+                                <strong>Simulated Dating App Chat:</strong>
+                                <br>Interact with AI (powered by GPT by OpenAI) in a simulation inspired by dating apps
+                                like Tinder and Bumble. Practice communication skills in a fun and engaging way with
+                                tailored rooms for unique experiences.
+                            </li>
+                        </ul>
+
+                        <h6 class="mt-4">Why GoChat?</h6>
+                        <p>
+                            GoChat is more than just a messaging app—it’s a showcase of <em>modern technology</em>,
+                            <em>creative design</em>, and <em>innovation</em>.
+                            It not only provides an exceptional user experience but also serves as a compelling addition
+                            to my portfolio.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GABUT PROJECT -->
+        <div class="modal fade" id="infoModalGabutProject" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">Gabut Project - App Information</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-center mb-3">Gabut Project – Unleashing the Power of Large Language Models
+                            (LLMs)</h5>
+                        <p class="text-muted text-center">Exploring the possibilities of LLMs by blending creativity and
+                            technology into practical applications.</p>
+
+                        <h6 class="mt-4">Project Overview</h6>
+                        <p>
+                            The Gabut Project is a personal initiative aimed at experimenting with the potential of
+                            Large Language Models (LLMs) across diverse domains.
+                            This project leverages
+                            technologies from providers like <strong>OpenAI</strong> and <strong>Anthropic</strong> to
+                            deliver innovative and engaging features.
+                        </p>
+
+                        <h6 class="mt-4">Key Features</h6>
+                        <ul>
+                            <li>
+                                <strong>Medium Account Roast:</strong>
+                                <br>A playful yet insightful analysis of your Medium account to improve your online
+                                presence with humorous feedback.
+                            </li>
+                            <li class="mt-2">
+                                <strong>Baku Hantam X Website Roast/Analysis:</strong>
+                                <br>Deep dive into Baku Hantam X, a website that compiles summaries of 'Baku Hantam' tweets from the X platform. It attempts to scrape, roast, and condense them into concise summaries for users.
+                            </li>
+                            <li class="mt-2">
+                                <strong>Butterfly Effect Stories Generator:</strong>
+                                <br>Generate imaginative "What if?" scenarios, creating branching stories that showcase
+                                the creativity and adaptability of LLMs.
+                            </li>
+                            <li class="mt-2">
+                                <strong>Creative Content Generator:</strong>
+                                <br>Simplify content creation by generating high-quality articles, captions, and other
+                                creative materials tailored to user needs.
+                            </li>
+                        </ul>
+
+                        <h6 class="mt-4">Why Gabut Project?</h6>
+                        <p>
+                            The Gabut Project is a testament to curiosity-driven learning, pushing the boundaries of
+                            what's possible with LLMs. It demonstrates how <em>cutting-edge technologies</em> can be
+                            applied to real-world use cases.
+                            More than just a portfolio piece, it serves as a playground for <em>innovation</em>,
+                            showcasing the creative potential of LLMs in practical and engaging ways.
+                        </p>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GIN V EXPRESS -->
+        <div class="modal fade" id="infoModalGinvexpress" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">GinVExpress - App Information</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-center mb-3">Thesis Project – API Performance Comparison: Golang Gin vs. Node.js
+                            Express</h5>
+                        <p class="text-muted text-center">A comprehensive performance analysis of API frameworks with
+                            SQL and NoSQL databases.</p>
+
+                        <h6 class="mt-4">Project Overview</h6>
+                        <p>
+                            My final university project explores the performance differences between APIs developed with
+                            <strong>Golang Gin</strong> and <strong>Node.js Express</strong>, connected to two distinct
+                            database types—<strong>SQL (PostgreSQL)</strong> and <strong>NoSQL (MongoDB)</strong>.
+                            The study involves four comprehensive test cases, with all APIs implemented as <strong>URL
+                                shortener services</strong> to ensure consistent functionality and fair benchmarking.
+                        </p>
+
+                        <h6 class="mt-4">Key Focus Areas</h6>
+                        <ul>
+                            <li>
+                                <strong>Testing Environment:</strong>
+                                <br>Both APIs are deployed on <strong>Google Cloud Run</strong>, ensuring identical
+                                environments to eliminate external factors influencing the results.
+                            </li>
+                            <li class="mt-2">
+                                <strong>Performance Testing:</strong>
+                                <br>Utilizing the <strong>K6 tool</strong>, tests focus on critical metrics such as
+                                iterations per second, CPU utilization, memory consumption, and response times under
+                                various workloads.
+                            </li>
+                            <li class="mt-2">
+                                <strong>Key Insights:</strong>
+                                <br>Unveiling the strengths and weaknesses of each framework in handling SQL and NoSQL
+                                databases, providing practical insights for developers when choosing between
+                                <strong>Golang</strong> and <strong>Node.js</strong>.
+                            </li>
+                        </ul>
+
+                        <h6 class="mt-4">Why This Thesis Matters?</h6>
+                        <p>
+                            This project combines <em>academic rigor</em> with <em>real-world applicability</em>,
+                            showcasing technical expertise in backend development, performance testing, and cloud
+                            deployment.
+                            It highlights my ability to analyze complex systems and deliver actionable insights—an
+                            essential skill for creating efficient, scalable web applications.
+                        </p>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMPLATE MODAL -->
+        <!-- <div class="modal fade" id="infoModalTemplate" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">App Information</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Detailed information about the app goes here.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- Footer -->
+        <footer class="mt-5 text-center text-muted">
+            <p>&copy; 2025 Kelana Chandra Helyandika. All rights reserved.</p>
+        </footer>
+    </div>
+
+
+    {{ template "components/_footer-script" . }}
+    {{ template "components/_loading" . }}
+    {{ template "components/_modal-infor" . }}
+
+    <script>
+        const editPassModal = new bootstrap.Modal($('#editPasswordModal'))
+        const editUsernameModal = new bootstrap.Modal($('#editUsernameModal'))
+        let USERNAME = ""
+        let USER_ID = 0
+        let IS_LOGGED_IN = false
+
+        async function redirectAuth (app_name) {
+            event.preventDefault()
+            showLoader()
+
+            try{
+                if (!IS_LOGGED_IN) {
+                    throw new Error('You need to log in first to access this application.')
+                }
+
+                const resp = await fetch("/api/redirect?app=" + app_name, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                const response = await resp.json()
+
+                if(response.error) {
+                    throw new Error(response.message)
+                } else {
+                    const url = response.data.redirect_url + '?token=' + response.data.token
+                    window.location.href = url
+                }
+
+            } catch(e) {
+                showInfoModal( app_name + ' Failed: <b>' + e.message + "</b>", app_name + ' Failed')
+            } finally {
+                hideLoader()
+            }
+        }
+
+        async function loadDataDashboard() {
+            showLoader()
+
+            try {
+                const resp = await fetch("/api/dashboard", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                const response = await resp.json()
+
+                if (response.error) {
+                    throw new Error(response.message)
+                } else {
+                    const data = response.data
+                    IS_LOGGED_IN = data.is_logged_in
+
+                    if (IS_LOGGED_IN) {
+                        // Show logged-in content and set username
+                        USERNAME = data.user.username
+                        USER_ID = data.user.id
+                        $('#logged-in').removeClass('d-none');
+                        $('#not-logged-in').addClass('d-none');
+                        $('#username').text(USERNAME);
+
+                        $('#usernameEditCurrentInput').val(USERNAME)
+                        $('#usernameEditInput').val(USERNAME)
+
+                    } else {
+                        // Show not-logged-in content
+                        $('#logged-in').addClass('d-none');
+                        $('#not-logged-in').removeClass('d-none');
+                    }
+                }
+
+            } catch(e) {
+                showInfoModal('Failed to load data: ' + e.message, 'Failed to Load Data')
+            } finally {
+                hideLoader()
+            }
+        }
+
+        $('document').ready(async function() {
+            hideLoader()
+            loadDataDashboard()
+
+            $('#gochat').click(async function () {
+                await redirectAuth('gochat')
+            })
+
+            $('#llm').click(async function () {
+                await redirectAuth('llm')
+            })
+
+
+            // --------------------------------------------- EDIT USERNAME AND PASSWORD
+            // edit username
+            $('#editUsernameForm').submit(async function() {
+                event.preventDefault()
+
+                const username = $('#usernameEditInput').val().trim()
+
+                showLoader()
+
+                try {
+                    const resp = await fetch("/api/users", {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: parseInt(USER_ID),
+                            username: username
+                        })
+                    })
+                    const response = await resp.json()
+
+                    editUsernameModal.hide()
+
+                    if(response.error) throw new Error(response.message)
+                    else {
+                        hideLoader()
+                        showInfoModal('Success edit username', 'Edit Username Success')
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 1000)
+                    }
+
+                } catch(e) {
+                    showInfoModal('Failed to edit username: ' + e.message, 'Edit Username Failed')
+                    hideLoader()
+                }
+            })
+
+            // edit password
+            $('#editPasswordForm').submit(async function() {
+                event.preventDefault()
+
+                const passwordNow = $('#passwordEditNowInput').val().trim()
+                const newPassword = $('#passwordEditNewInput').val().trim()
+                const confirmPassword = $('#passwordEditConfirmInput').val().trim()
+
+                if (newPassword !== confirmPassword) {
+                    showInfoModal('Password and password confirmation not same', 'Edit Password Failed')
+                    return
+                }
+
+                showLoader()
+
+                try {
+                    const resp = await fetch("/api/users/password", {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: parseInt(USER_ID),
+                            password: passwordNow,
+                            new_password: newPassword
+                        })
+                    })
+                    const response = await resp.json()
+
+                    if(response.error) throw new Error(response.message)
+                    else {
+                        hideLoader()
+                        editPassModal.hide()
+                        $('#passwordEditNowInput').val('')
+                        $('#passwordEditNewInput').val('')
+                        $('#passwordEditConfirmInput').val('')
+                        showInfoModal('Success edit password', 'Edit Password Success')
+                    }
+
+                } catch(e) {
+                    showInfoModal('Failed to edit password: ' + e.message, 'Edit Password Failed')
+                    hideLoader()
+                }
+            })
+
+            // logout
+            $('#logout').click(async function() {
+                event.preventDefault()
+
+                showLoader()
+
+                try {
+                    const resp = await fetch("/api/logout", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    const response = await resp.json()
+
+                    if (!response.error) {
+                        window.location.href = '/login'
+                    } else {
+                        showInfoModal('Logout Failed', 'Logout Failed')
+                    }
+                } catch (error) {
+                    showInfoModal('Logout Failed', 'Logout Failed')
+                } finally {
+                    hideLoader()
+                }
+            })
+        })
+    </script>
+</body>
+</html>
