@@ -7,9 +7,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/momokii/go-sso-web/internal/database"
-	"github.com/momokii/go-sso-web/internal/models"
-	sessionRepo "github.com/momokii/go-sso-web/internal/repository/session"
-	"github.com/momokii/go-sso-web/internal/repository/user"
+	"github.com/momokii/go-sso-web/pkg/models"
+	sessionRepo "github.com/momokii/go-sso-web/pkg/repository/session"
+	"github.com/momokii/go-sso-web/pkg/repository/user"
 )
 
 var (

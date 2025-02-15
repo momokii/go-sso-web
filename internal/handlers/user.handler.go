@@ -4,8 +4,8 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/momokii/go-sso-web/internal/database"
-	"github.com/momokii/go-sso-web/internal/models"
-	"github.com/momokii/go-sso-web/internal/repository/user"
+	"github.com/momokii/go-sso-web/pkg/models"
+	"github.com/momokii/go-sso-web/pkg/repository/user"
 	"github.com/momokii/go-sso-web/pkg/utils"
 	"golang.org/x/crypto/bcrypt"
 )

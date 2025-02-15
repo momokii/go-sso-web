@@ -3,7 +3,7 @@ package session
 import (
 	"database/sql"
 
-	"github.com/momokii/go-sso-web/internal/models"
+	"github.com/momokii/go-sso-web/pkg/models"
 )
 
 type SessionRepo struct{}

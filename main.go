@@ -12,8 +12,8 @@ import (
 	"github.com/momokii/go-sso-web/internal/database"
 	"github.com/momokii/go-sso-web/internal/handlers"
 	"github.com/momokii/go-sso-web/internal/middlewares"
-	"github.com/momokii/go-sso-web/internal/repository/session"
-	"github.com/momokii/go-sso-web/internal/repository/user"
+	"github.com/momokii/go-sso-web/pkg/repository/session"
+	"github.com/momokii/go-sso-web/pkg/repository/user"
 	"github.com/momokii/go-sso-web/pkg/worker"
 
 	_ "github.com/joho/godotenv/autoload"

@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-co-op/gocron/v2"
 	"github.com/momokii/go-sso-web/internal/database"
-	"github.com/momokii/go-sso-web/internal/repository/session"
+	"github.com/momokii/go-sso-web/pkg/repository/session"
 )
 
 type SessionChecker struct {
