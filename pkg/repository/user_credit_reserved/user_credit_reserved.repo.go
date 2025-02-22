@@ -1,4 +1,4 @@
-package user_credit_reserveed
+package user_credit_reserved
 
 import (
 	"database/sql"
