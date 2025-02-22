@@ -26,6 +26,11 @@
                     <div class="flex-grow-1">
                         <h5 class="card-title mb-2 text-success">You are logged in!</h5>
                         <p class="card-text mb-1">Your Username: <strong id="username">-</strong></p>
+                        <div class="mb-2"></div>
+                        <div>
+                            <p class="card-text mb-1"><strong>Credit Token:</strong> <span id="credit-token" class="text-primary">-</span></p>
+                            <p class="card-text mb-1"><strong>Time Until Reset Token:</strong> <span id="last-llm-used" class="text-danger">-</span></p>
+                        </div>
                         <p class="card-text text-muted">You can edit your username or password, or log out below.</p>
                     </div>
                     <div class="mt-2">
@@ -406,6 +411,8 @@
         let USERNAME = ""
         let USER_ID = 0
         let IS_LOGGED_IN = false
+        let CREDIT_TOKEN = 0
+        let LAST_FIRST_LLM_USED = ''
 
         async function redirectAuth (app_name) {
             event.preventDefault()
@@ -460,9 +467,31 @@
                         // Show logged-in content and set username
                         USERNAME = data.user.username
                         USER_ID = data.user.id
-                        $('#logged-in').removeClass('d-none');
-                        $('#not-logged-in').addClass('d-none');
-                        $('#username').text(USERNAME);
+                        CREDIT_TOKEN = data.user.credit_token
+                        LAST_FIRST_LLM_USED = data.user.last_first_llm_used
+                        $('#logged-in').removeClass('d-none')
+                        $('#not-logged-in').addClass('d-none')
+                        $('#username').text(USERNAME)
+                        $('#credit-token').text(CREDIT_TOKEN)
+                        if (LAST_FIRST_LLM_USED === '') {
+                            $('#last-llm-used').text('User has max token daily and has not used any LLM feature today');
+                        } else {
+
+                            let nextDay = new Date(LAST_FIRST_LLM_USED)
+                            nextDay.setHours(nextDay.getHours() + 24)
+
+                            let now = new Date()
+
+                            let diff = nextDay - now
+
+                            let hours = Math.floor(diff / (1000 * 60 * 60))
+                            let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+                            let seconds = Math.floor((diff % (1000 * 60)) / 1000)
+
+                            let time_until_reset_token = `${hours} jam, ${minutes} menit, ${seconds} detik`
+
+                            $('#last-llm-used').text(time_until_reset_token);
+                        }
 
                         $('#usernameEditCurrentInput').val(USERNAME)
                         $('#usernameEditInput').val(USERNAME)

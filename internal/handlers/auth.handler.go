@@ -259,6 +259,8 @@ func (h *AuthHandler) CheckAuthDashboard(c *fiber.Ctx) error {
 
 		user_session_data.Id = user_data.Id
 		user_session_data.Username = user_data.Username
+		user_session_data.CreditToken = user_data.CreditToken
+		user_session_data.LastFirstLLMUsed = user_data.LastFirstLLMUsed
 
 		is_logged_in = true // set to true if session is valid
 	}

@@ -21,6 +21,7 @@ import (
 
 const (
 	WORKER_SESSION_CHECKER_DURATION = 25 * time.Second
+	WORKER_CREDIT_CHECKER_DURATION  = 25 * time.Second
 )
 
 func main() {
@@ -38,9 +39,11 @@ func main() {
 
 	// worker init
 	sessionChecker := worker.NewSessionChecker(*sessionRepo)
+	creditChecker := worker.NewUserCreditChecker(*userRepo)
 
 	// start worker
 	sessionChecker.StartChecker(WORKER_SESSION_CHECKER_DURATION)
+	creditChecker.StartChecker(WORKER_CREDIT_CHECKER_DURATION)
 
 	// app server setup and init
 	engine := html.New("./web", ".html")

@@ -15,3 +15,22 @@ CREATE TABLE sessions (
     created_at TIMESTAMP DEFAULT NOW(),
     expires_at TIMESTAMP NOT NULL
 );
+
+CREATE TYPE credit_status AS ENUM ('pending', 'confirmed', 'cancelled');
+CREATE TYPE feature_type AS ENUM ('chat-ai');
+
+CREATE TABLE user_credit_reserved (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    credit INT NOT NULL,
+    feature_type feature_type NOT NULL,
+    status credit_status NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE room_credit_reserved_conn (
+    id SERIAL PRIMARY KEY,
+    room_code VARCHAR(255) NOT NULL REFERENCES room_chat_train(room_code) ON DELETE CASCADE,
+    user_credit_reserved_id INT NOT NULL REFERENCES user_credit_reserved(id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT NOW()
+)
