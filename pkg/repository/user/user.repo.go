@@ -104,8 +104,9 @@ func (r *UserRepo) UpdateCreditToken(tx *sql.Tx, user *models.User, newTotalCred
 	idx++
 
 	if is_first_day_used {
+		time_now := time.Now().Format(time.RFC3339)
 		query += ", last_first_llm_used = $" + strconv.Itoa(idx)
-		param = append(param, user.LastFirstLLMUsed)
+		param = append(param, time_now)
 		idx++
 	}
 
