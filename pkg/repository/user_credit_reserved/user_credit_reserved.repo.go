@@ -13,7 +13,7 @@ func NewUserCreditReserved() *UserCreditReserved {
 }
 
 // status is for room chat status (active or not)
-func (r *UserCreditReserved) FindById(tx *sql.Tx, id int, status bool) (*models.UserCreditReservedResp, error) {
+func (r *UserCreditReserved) FindRoomByCode(tx *sql.Tx, code_room string) (*models.UserCreditReservedResp, error) {
 	var userCreditReserved models.UserCreditReservedResp
 
 	query := `
@@ -31,11 +31,10 @@ func (r *UserCreditReserved) FindById(tx *sql.Tx, id int, status bool) (*models.
 		LEFT JOIN 
 			room_chat_train rct ON rcrc.room_code = rct.room_code
 		WHERE 
-			ucr.id = $1 
-			AND rct.status = $2
+			rct.room_code = $1
 	`
 
-	if err := tx.QueryRow(query, id, status).Scan(&userCreditReserved.Id, &userCreditReserved.UserId, &userCreditReserved.Credit, &userCreditReserved.FeatureType, &userCreditReserved.Status, &userCreditReserved.IsHaveRoomActive); err != nil && err != sql.ErrNoRows {
+	if err := tx.QueryRow(query, code_room).Scan(&userCreditReserved.Id, &userCreditReserved.UserId, &userCreditReserved.Credit, &userCreditReserved.FeatureType, &userCreditReserved.Status, &userCreditReserved.IsHaveRoomActive); err != nil && err != sql.ErrNoRows {
 		return &userCreditReserved, err
 	}
 
