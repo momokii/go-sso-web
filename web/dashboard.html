@@ -488,7 +488,7 @@
                             let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
                             let seconds = Math.floor((diff % (1000 * 60)) / 1000)
 
-                            let time_until_reset_token = `${hours} jam, ${minutes} menit, ${seconds} detik`
+                            let time_until_reset_token = `${hours} hours, ${minutes} minutes, ${seconds} seconds`
 
                             $('#last-llm-used').text(time_until_reset_token);
                         }

@@ -72,12 +72,12 @@ func (h *AuthHandler) SignUp(c *fiber.Ctx) error {
 	}()
 
 	// check if username already exist
-	user, err := h.userRepo.FindByUsername(tx, auth.Username)
+	user_new, err := h.userRepo.FindByUsername(tx, auth.Username)
 	if err != nil {
 		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 	}
 
-	if user.Id != 0 {
+	if user_new.Id != 0 {
 		return utils.ResponseError(c, fiber.StatusBadRequest, "Username already exist")
 	}
 
@@ -88,10 +88,11 @@ func (h *AuthHandler) SignUp(c *fiber.Ctx) error {
 	}
 
 	// add user to database
-	user.Password = string(hashedPass)
-	user.Username = auth.Username
+	user_new.Password = string(hashedPass)
+	user_new.Username = auth.Username
+	user_new.CreditToken = user.USER_MAX_DAILY_CREDIT_TOKEN
 
-	if err := h.userRepo.Create(tx, user); err != nil {
+	if err := h.userRepo.Create(tx, user_new); err != nil {
 		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 	}
 

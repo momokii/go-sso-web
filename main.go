@@ -20,8 +20,8 @@ import (
 )
 
 const (
-	WORKER_SESSION_CHECKER_DURATION = 25 * time.Second
-	WORKER_CREDIT_CHECKER_DURATION  = 25 * time.Second
+	WORKER_SESSION_CHECKER_DURATION = 1 * time.Minute
+	WORKER_CREDIT_CHECKER_DURATION  = 1 * time.Minute
 )
 
 func main() {

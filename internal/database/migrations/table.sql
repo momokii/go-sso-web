@@ -2,7 +2,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(25) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    credit_token INT DEFAULT 0,
+    credit_token INT DEFAULT 15,
     last_first_llm_used TIMESTAMP DEFAULT NULL
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -33,4 +33,4 @@ CREATE TABLE room_credit_reserved_conn (
     room_code VARCHAR(255) NOT NULL REFERENCES room_chat_train(room_code) ON DELETE CASCADE,
     user_credit_reserved_id INT NOT NULL REFERENCES user_credit_reserved(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT NOW()
-)
+);
