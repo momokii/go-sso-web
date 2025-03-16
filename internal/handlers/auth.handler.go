@@ -174,6 +174,10 @@ func (h *AuthHandler) RedirectRequest(c *fiber.Ctx) error {
 		app_url = os.Getenv("LLM_URL")
 	}
 
+	if app_req == "echonotes" {
+		app_url = os.Getenv("ECHONOTES_URL")
+	}
+
 	// create token jwt that combine session data: id and session_id
 	// get user id and session id from session
 	user_id, err := middlewares.CheckSession(c, "id")

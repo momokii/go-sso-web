@@ -132,9 +132,10 @@ func (r *UserRepo) UpdateCreditToken(tx *sql.Tx, user *models.User, newTotalCred
 }
 
 func (r *UserRepo) ResetUserDailyToken(tx *sql.Tx) error {
-	// the flow for now is reset all user credit token to 5 if they have pending room (chat ai) and the room is still active
+	// flow reset token explained:
+	// 1. the flow for now is reset all user credit token to 5 if they have pending room (chat ai) and the room is still active
 	// and reset all user credit token to 15 if they have used the first credit token and the last used is more than 24 hours
-	// the reset will be done in the same time
+	// 2. the reset will be done in the same time
 
 	var users_reset []int
 

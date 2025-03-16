@@ -7,8 +7,8 @@
             <div>
                 <h1 class="h3 mb-3">Kelana's SSO Dashboard</h1>
                 <p class="text-muted">
-                    This SSO dashboard contains several mini web-based projects that I,<b>Kelana Chandra Helyandika</b>, have been working on.  
-                    For now, it’s all web-based (for fun!), and my portfolio website or personal profile can be visited using the button below for more information about me and the other project that i working on but not included on here yet (or not on web based project app).
+                    This SSO dashboard contains several mini web-based projects that I, <b>Kelana Chandra Helyandika</b>, have been working on.  
+                    For now, it’s mostly web-based (for fun!), but this dashboard is not limited to web deployments only. Along with my portfolio website and personal profile (accessible via the button below), you’ll also find links to my GitHub repository where I share various third-party modules and projects I've developed. This way, you can explore a broader range of my work, including non-web-based projects.
                 </p>
                 <p class="text-muted mt-1">
                     For projects requiring authentication, you need to log in first using the provided authentication feature.  
@@ -62,6 +62,23 @@
                 <div class="card h-100">
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div>
+                            <h5 class="card-title">Echo-Notes</h5>
+                            <p class="card-text" style="text-align: justify;">A web application designed to record real-life meetings, featuring seamless audio recording and intelligent summarization. Utilizing LLM-based speech-to-text (Whisper) for accurate transcription and GPT-series models for summarization.</p>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-2">
+                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalEchoNotes">Info</button>
+                            <button class="btn btn-outline-success btn-sm" id="echonotes" type="button">Visit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GOCCHAT -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
                             <h5 class="card-title">GoChat</h5>
                             <p class="card-text" style="text-align: justify;">A web chat application built with WebSocket technology, featuring real-time communication, user authentication, and customizable chat rooms. Includes an exciting new feature: a simulated dating app chat experience with AI integration.</p>
                         </div>
@@ -88,6 +105,24 @@
                         <div class="d-flex justify-content-between mt-2">
                             <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalGabutProject">Info</button>
                             <button class="btn btn-outline-success btn-sm" type="button" id="llm">Visit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LLM BRIDGE -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title">Go LLM Bridge</h5>
+                            <p class="card-text">
+                                The Go LLM Wrapper is a pure Go interface for seamless integration with leading LLM APIs, including Anthropic’s Claude and OpenAI. It supports a wide range of functionalities providing a robust solution for advanced language model integration in Go applications.
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalLLMBridge">Info</button>
+                            <a href="https://github.com/momokii/go-llmbridge" target="_blank" class="btn btn-outline-success btn-sm">Visit</a>
                         </div>
                     </div>
                 </div>
@@ -192,6 +227,62 @@
                             </div>
                             <button type="submit" class="btn btn-success">Edit Password</button>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL ECHO NOTES -->
+        <div class="modal fade" id="infoModalEchoNotes" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">Echo Notes - App Information</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-center mb-3">Echo Notes – Capture & Summarize Your Meetings</h5>
+                        <p class="text-muted text-center">An intelligent web app for recording, transcribing, and summarizing real-life conversations.</p>
+                    
+                        <h6 class="mt-4">Project Overview</h6>
+                        <p>
+                            Echo-Notes is a personal project designed to streamline the process of capturing and summarizing real-world meetings. 
+                            Built with <strong>Golang</strong> using the <strong>Fiber</strong> framework, <strong>PostgreSQL</strong>, and a sleek interface powered by 
+                            <strong>HTML, Bootstrap</strong>, and <strong>jQuery</strong>, this app integrates cutting-edge AI technology to deliver efficient meeting insights.
+                        </p>
+                    
+                        <h6 class="mt-4">Key Features</h6>
+                        <ul>
+                            <li>
+                                <strong>Seamless Audio Recording:</strong>
+                                <br>Record real-life meetings directly within the web app with high-quality audio capture.
+                            </li>
+                            <li class="mt-2">
+                                <strong>AI-Powered Transcription:</strong>
+                                <br>Convert speech to text in real time using <strong>Whisper</strong> (OpenAI's advanced speech-to-text model).
+                            </li>
+                            <li class="mt-2">
+                                <strong>Smart Summarization:</strong>
+                                <br>Generate two types of summaries with <strong>GPT-based AI</strong>:
+                                <ul>
+                                    <li><em>Simple Summary</em> – A concise version highlighting key points.</li>
+                                    <li><em>Comprehensive Summary</em> – A detailed breakdown for deeper insights.</li>
+                                </ul>
+                            </li>
+                            <li class="mt-2">
+                                <strong>Secure & Personalized:</strong>
+                                <br>Save, organize, and revisit meeting records with user authentication and session management.
+                            </li>
+                        </ul>
+                    
+                        <h6 class="mt-4">Why Echo-Notes?</h6>
+                        <p>
+                            Echo-Notes is more than just a recording tool, it's an intelligent assistant for busy professionals, teams, and students.
+                            By leveraging AI-powered transcription and summarization, it enhances productivity and ensures no important detail is missed.
+                        </p>
+                    </div>                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -307,6 +398,48 @@
                             showcasing the creative potential of LLMs in practical and engaging ways.
                         </p>
                     </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="infoModalLLMBridge" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">Go LLM Bridge</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-center mb-3">Go LLM Wrapper – A Pure Go Interface for LLM APIs</h5>
+                        <p class="text-muted text-center">Streamline your integration with advanced LLM capabilities including text, vision, and audio.</p>
+                    
+                        <h6 class="mt-4">Project Overview</h6>
+                        <p>
+                            The Go LLM Wrapper provides a streamlined, pure Go interface for interacting with leading LLM APIs such as <strong>Anthropic’s Claude</strong> and <strong>OpenAI</strong>. 
+                            Designed with zero external dependencies, this lightweight wrapper supports an extensive range of functionalities—ranging from text processing and vision tasks to advanced audio processing.
+                            It simplifies the integration of cutting-edge language model capabilities into your Go applications.
+                        </p>
+                    
+                        <h6 class="mt-4">Key Features</h6>
+                        <ul>
+                            <li><strong>🚀 Pure Go Implementation:</strong> Built with pure Go and zero external dependencies for optimal performance.</li>
+                            <li class="mt-2"><strong>💬 Multiple Provider Support:</strong> Seamlessly integrates with both Anthropic and OpenAI.</li>
+                            <li class="mt-2"><strong>👁️ Comprehensive Capabilities:</strong> Supports both text-based operations and vision functionalities.</li>
+                            <li class="mt-2"><strong>🎙️ Audio Processing:</strong> Offers state-of-the-art text-to-speech and speech-to-text features.</li>
+                            <li class="mt-2"><strong>🖼️ Image Generation:</strong> Leverages DALL-E for creative image generation.</li>
+                            <li class="mt-2"><strong>⚡ Minimal and Efficient:</strong> Optimized for speed and low resource consumption.</li>
+                            <li class="mt-2"><strong>🛠️ Flexible Configuration:</strong> Provides customizable options tailored to each provider.</li>
+                        </ul>
+                    
+                        <h6 class="mt-4">Why This Project Matters?</h6>
+                        <p>
+                            This project exemplifies modern API design with a focus on efficiency and versatility. By delivering a pure Go solution for integrating advanced LLM functionalities, it empowers developers to build smarter applications, accelerate innovation, and reduce development overhead.
+                        </p>
+                    </div>                                     
                     
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -513,6 +646,10 @@
         $('document').ready(async function() {
             hideLoader()
             loadDataDashboard()
+
+            $('#echonotes').click(async function () {
+                await redirectAuth('echonotes')
+            })
 
             $('#gochat').click(async function () {
                 await redirectAuth('gochat')
