@@ -1,306 +1,557 @@
 {{ template "components/_header-dashboard" . }}
-<body style="height: auto;">
-    <div class="container py-3">
-        <!-- Header Section -->
-        <header class="d-flex align-items-center mb-4">
-            <img src="/web/images/klan-sso-logo.png" alt="Logo" class="me-3 rounded-circle" style="max-width: 100px; max-height: 100px;">
-            <div>
-                <h1 class="h3 mb-3">Kelana's SSO Dashboard</h1>
-                <p class="text-muted">
-                    This SSO dashboard contains several mini web-based projects that I, <b>Kelana Chandra Helyandika</b>, have been working on.  
-                    For now, it’s mostly web-based (for fun!), but this dashboard is not limited to web deployments only. Along with my portfolio website and personal profile (accessible via the button below), you’ll also find links to my GitHub repository where I share various third-party modules and projects I've developed. This way, you can explore a broader range of my work, including non-web-based projects.
-                </p>
-                <p class="text-muted mt-1">
-                    For projects requiring authentication, you need to log in first using the provided authentication feature.  
-                    All web apps with authentication will utilize a centralized login through this SSO. With one profile, you can access multiple web apps (if authentication is required for that web).
-                </p>
-                <a href="https://kelanach.xyz" target="_blank" class="btn btn-primary mt-1 d-inline-block"><b>Visit My Portfolio</b></a>
-            </div>
-        </header>
-
-        <!-- User Info Section -->
-        <div class="card mb-4">
-            <div class="card-body d-flex align-items-center">
-                <!-- LOGIN SECTION -->
-                <div id="logged-in" class="d-none">
-                    <div class="flex-grow-1">
-                        <h5 class="card-title mb-2 text-success">You are logged in!</h5>
-                        <p class="card-text mb-1">Your Username: <strong id="username">-</strong></p>
-                        <div class="mb-2"></div>
-                        <div>
-                            <p class="card-text mb-1"><strong>Credit Token:</strong> <span id="credit-token" class="text-primary">-</span></p>
-                            <p class="card-text mb-1"><strong>Time Until Reset Token:</strong> <span id="last-llm-used" class="text-danger">-</span></p>
-                        </div>
-                        <p class="card-text text-muted">You can edit your username or password, or log out below.</p>
-                    </div>
-                    <div class="mt-2">
-                        <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editUsernameModal">Edit Username</button>
-                        <button class="btn btn-outline-secondary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editPasswordModal">Edit Password</button>
-                        <button class="btn btn-danger btn-sm" id="logout" type="button">Logout</button>
+<body class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 font-sans" style="height: auto;">
+    <!-- Modern Tailwind Dashboard -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Enhanced Header Section - More Professional and Modern -->
+        <header class="bg-white rounded-2xl shadow-xl p-0 mb-8 overflow-hidden hover:shadow-2xl transition-all duration-500 relative">
+            <!-- Decorative background elements -->
+            <div class="absolute top-0 right-0 w-full h-full bg-gradient-to-r from-blue-50/50 to-indigo-50/50 z-0"></div>
+            <div class="absolute top-0 right-0 h-full w-1/2 bg-gradient-to-bl from-blue-100/30 to-transparent z-0"></div>
+            <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-500 z-10"></div>
+            
+            <!-- Decorative shapes -->
+            <div class="absolute top-10 right-10 w-64 h-64 rounded-full bg-gradient-to-br from-blue-100/20 to-indigo-200/20 blur-3xl z-0"></div>
+            <div class="absolute bottom-10 left-10 w-40 h-40 rounded-full bg-gradient-to-tr from-blue-100/20 to-purple-200/20 blur-3xl z-0"></div>
+            
+            <div class="relative z-10">
+                <!-- Top banner section with gradient background -->
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-8 py-3">
+                    <div class="flex justify-between items-center">
+                        <p class="text-sm font-medium flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Single Sign-On Dashboard for Personal Projects
+                        </p>
+                        <a href="https://github.com/momokii" target="_blank" class="text-sm hover:text-blue-100 transition-colors flex items-center">
+                            <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" fill="currentColor">
+                                <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
+                            </svg>
+                            Visit GitHub
+                        </a>
                     </div>
                 </div>
                 
-                <!-- NOT LOGIN SECTION -->
-                <div id="not-logged-in">
-                    <div class="flex-grow-1">
-                        <h5 class="card-title mb-2 text-danger">You are not logged in</h5>
-                        <p class="card-text mb-1"><strong>Please log in</strong> to access all applications that require authentication.</p>
-                        <p class="card-text text-muted">Click the button below to proceed to the login page.</p>
+                <!-- Main content area -->
+                <div class="p-8 flex flex-col md:flex-row gap-8 items-start">
+                    <!-- Logo and profile section -->
+                    <div class="flex-shrink-0">
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full opacity-70 group-hover:opacity-100 blur transition duration-500 group-hover:duration-200"></div>
+                            <img src="/web/images/klan-sso-logo.png" alt="Kelana SSO" class="relative w-28 h-28 rounded-full shadow-lg object-cover border-4 border-white group-hover:border-blue-50 transition-all duration-300" />
+                        </div>
                     </div>
-                    <div class="mt-2">
-                        <a href="/login" class="btn btn-outline-primary btn-sm">Login Now</a>
+                    
+                    <!-- Text content -->
+                    <div class="flex-1 space-y-6">
+                        <div>
+                            <div class="flex flex-wrap gap-2 items-center mb-2">
+                                <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">Kelana's SSO Dashboard</h1>
+                                <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">v1.0</span>
+                            </div>
+                            <p class="text-gray-600 leading-relaxed">
+                                Welcome to my SSO dashboard, showcasing several mini web-based projects that I, <span class="font-semibold text-indigo-700">Kelana Chandra Helyandika</span>, have developed. 
+                                This platform serves as a centralized authentication hub for accessing multiple applications with a single login.
+                            </p>
+                            <p class="text-gray-600 mt-3 leading-relaxed">
+                                The projects showcased here demonstrate my expertise in <span class="text-blue-600 font-medium">full-stack development</span>, 
+                                <span class="text-indigo-600 font-medium">API integration</span>, and 
+                                <span class="text-purple-600 font-medium">user experience design</span>. While primarily web-based, the underlying technologies
+                                and patterns can be applied to various platforms and solutions.
+                            </p>
+                        </div>
+                        
+                        <!-- Action buttons with improved styling -->
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <a href="https://kelanach.xyz" target="_blank" aria-label="Visit my portfolio website" 
+                               class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg 
+                               transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/30 focus:ring-2 focus:ring-blue-300 focus:outline-none">
+                                <span class="font-semibold">Visit Portfolio</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                            <a href="/home" aria-label="Go to home page" 
+                               class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-medium rounded-lg 
+                               transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/30 focus:ring-2 focus:ring-emerald-300 focus:outline-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                                </svg>
+                                <span class="font-semibold">Home Page</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- User Info Section (Enhanced) -->
+        <div class="bg-white rounded-xl shadow-md mb-8 overflow-hidden hover:shadow-lg transition-all duration-300">
+            <!-- Logged In Section -->
+            <div id="logged-in" class="hidden">
+                <div class="p-6 bg-gradient-to-r from-emerald-50 to-blue-50">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                <div class="h-3 w-3 rounded-full bg-emerald-500 mr-2 animate-pulse"></div>
+                                <h5 class="text-xl font-semibold text-emerald-600">You are logged in!</h5>
+                            </div>
+                            <p class="text-gray-700 mb-3 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                </svg>
+                                Your Username: <span id="username" class="font-semibold ml-1 text-blue-700">-</span>
+                            </p>
+                            
+                            <div class="bg-white rounded-lg p-5 my-4 shadow-sm border border-blue-50">
+                                <div class="flex items-center mb-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd" />
+                                    </svg>
+                                    <div>
+                                        <p class="text-gray-700 font-medium">Credit Token: <span id="credit-token" class="text-blue-600 font-semibold text-lg">-</span></p>
+                                        <p class="text-xs text-gray-500 mt-1">Available tokens for LLM-powered applications</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-500 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                                    </svg>
+                                    <div>
+                                        <p class="text-gray-700 font-medium">Time Until Reset Token: <span id="last-llm-used" class="text-rose-600 font-semibold">-</span></p>
+                                        <p class="text-xs text-gray-500 mt-1">Tokens automatically reset after this time period</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                </svg>
+                                You can edit your username or password, or log out using the buttons below.
+                            </p>
+                        </div>
+                        <div class="flex flex-col gap-2 min-w-max">
+                            <button class="px-4 py-2.5 border-2 border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white rounded-lg transition-colors duration-300 text-sm font-medium flex items-center justify-center" data-bs-toggle="modal" data-bs-target="#editUsernameModal">
+                                <i class="fas fa-user-edit mr-2"></i> Edit Username
+                            </button>
+                            <button class="px-4 py-2.5 border-2 border-gray-600 text-gray-700 hover:bg-gray-700 hover:text-white rounded-lg transition-colors duration-300 text-sm font-medium flex items-center justify-center" data-bs-toggle="modal" data-bs-target="#editPasswordModal">
+                                <i class="fas fa-key mr-2"></i> Edit Password
+                            </button>
+                            <button class="px-4 py-2.5 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white rounded-lg transition-colors duration-300 text-sm font-medium flex items-center justify-center shadow-sm hover:shadow" id="logout" type="button">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Not Logged In Section -->
+            <div id="not-logged-in" class="p-6 bg-gradient-to-r from-amber-50 to-rose-50">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div class="flex-1">
+                        <div class="flex items-center mb-2">
+                            <div class="h-3 w-3 rounded-full bg-rose-500 mr-2 animate-pulse"></div>
+                            <h5 class="text-xl font-semibold text-rose-600">You are not logged in</h5>
+                        </div>
+                        <p class="text-gray-700 mb-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                            </svg>
+                            <strong>Please log in</strong> to access all applications that require authentication.
+                        </p>
+                        <p class="text-gray-600 text-sm">Click the button below to proceed to the login page.</p>
+                    </div>
+                    <a href="/login" class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md text-sm font-medium">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Login Now
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications Section (Enhanced) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+            <!-- Echo-Notes -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-blue-100">
+                <div class="h-3 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h5 class="text-xl font-bold text-gray-800 flex items-center">
+                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 text-blue-600 mr-3">
+                                <i class="fas fa-headphones text-lg"></i>
+                            </span>
+                            Echo-Notes
+                        </h5>
+                        <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            AI Powered
+                        </span>
+                    </div>
+                    <p class="text-gray-600 mb-6 h-24 overflow-hidden text-sm">
+                        A web application designed to record real-life meetings, featuring seamless audio recording and intelligent summarization. Utilizing LLM-based speech-to-text (Whisper) for accurate transcription and GPT-series models for summarization.
+                    </p>
+                    <div class="flex justify-between mt-auto pt-4 border-t border-gray-100">
+                        <button class="px-4 py-2 text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-300 flex items-center" data-bs-toggle="modal" data-bs-target="#infoModalEchoNotes">
+                            <i class="fas fa-info-circle mr-2"></i> Details
+                        </button>
+                        <button class="px-4 py-2 text-sm bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-lg transition-colors duration-300 shadow-sm hover:shadow flex items-center" id="echonotes" type="button">
+                            <i class="fas fa-external-link-alt mr-2"></i> Visit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GoChat -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-purple-100">
+                <div class="h-3 bg-gradient-to-r from-purple-400 to-indigo-500"></div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h5 class="text-xl font-bold text-gray-800 flex items-center">
+                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100 text-purple-600 mr-3">
+                                <i class="fas fa-comments text-lg"></i>
+                            </span>
+                            GoChat
+                        </h5>
+                        <span class="bg-purple-100 text-purple-700 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
+                            <i class="fas fa-bolt mr-1 text-xs"></i>
+                            Real-time
+                        </span>
+                    </div>
+                    <p class="text-gray-600 mb-6 h-24 overflow-hidden text-sm">
+                        A web chat application built with WebSocket technology, featuring real-time communication, user authentication, and customizable chat rooms. Includes an exciting new feature: a simulated dating app chat experience with AI integration.
+                    </p>
+                    <div class="flex justify-between mt-auto pt-4 border-t border-gray-100">
+                        <button class="px-4 py-2 text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-300 flex items-center" data-bs-toggle="modal" data-bs-target="#infoModalGoChat">
+                            <i class="fas fa-info-circle mr-2"></i> Details
+                        </button>
+                        <button class="px-4 py-2 text-sm bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white rounded-lg transition-colors duration-300 shadow-sm hover:shadow flex items-center" id="gochat" type="button">
+                            <i class="fas fa-external-link-alt mr-2"></i> Visit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gabut Project -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-green-100">
+                <div class="h-3 bg-gradient-to-r from-green-400 to-emerald-500"></div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h5 class="text-xl font-bold text-gray-800 flex items-center">
+                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-600 mr-3">
+                                <i class="fas fa-robot text-lg"></i>
+                            </span>
+                            Gabut Project
+                        </h5>
+                        <span class="bg-green-100 text-green-700 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
+                            <i class="fas fa-brain mr-1 text-xs"></i>
+                            LLM-Powered
+                        </span>
+                    </div>
+                    <p class="text-gray-600 mb-6 h-24 overflow-hidden text-sm">
+                        A creative web application exploring the potential of Large Language Models (LLMs) like OpenAI and Anthropic.
+                        Features include account roasts, website analyses, story generation, and creative content creation.
+                    </p>
+                    <div class="flex justify-between mt-auto pt-4 border-t border-gray-100">
+                        <button class="px-4 py-2 text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-300 flex items-center" data-bs-toggle="modal" data-bs-target="#infoModalGabutProject">
+                            <i class="fas fa-info-circle mr-2"></i> Details
+                        </button>
+                        <button class="px-4 py-2 text-sm bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-lg transition-colors duration-300 shadow-sm hover:shadow flex items-center" id="llm" type="button">
+                            <i class="fas fa-external-link-alt mr-2"></i> Visit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Go WA Notifier -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-amber-100">
+                <div class="h-3 bg-gradient-to-r from-amber-400 to-yellow-500"></div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h5 class="text-xl font-bold text-gray-800 flex items-center">
+                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-amber-100 text-amber-600 mr-3">
+                                <i class="fab fa-whatsapp text-lg"></i>
+                            </span>
+                            Go WA Notifier
+                        </h5>
+                        <span class="bg-amber-100 text-amber-700 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
+                            <i class="fas fa-plug mr-1 text-xs"></i>
+                            API-Integrated
+                        </span>
+                    </div>
+                    <p class="text-gray-600 mb-6 h-24 overflow-hidden text-sm">
+                        Innovative web application designed to send the latest news straight to your WhatsApp! With an easy QR code login and seamless API integration with trusted news providers, staying updated has never been more exciting.
+                    </p>
+                    <div class="flex justify-between mt-auto pt-4 border-t border-gray-100">
+                        <button class="px-4 py-2 text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-300 flex items-center" data-bs-toggle="modal" data-bs-target="#infoModalWANotifier">
+                            <i class="fas fa-info-circle mr-2"></i> Details
+                        </button>
+                        <a href="https://github.com/momokii/go-wa-notifier" target="_blank" class="px-4 py-2 text-sm bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white rounded-lg transition-colors duration-300 shadow-sm hover:shadow flex items-center">
+                            <i class="fas fa-external-link-alt mr-2"></i> Visit
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Go LLM Bridge -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-indigo-100">
+                <div class="h-3 bg-gradient-to-r from-indigo-400 to-blue-500"></div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h5 class="text-xl font-bold text-gray-800 flex items-center">
+                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 mr-3">
+                                <i class="fas fa-code text-lg"></i>
+                            </span>
+                            Go LLM Bridge
+                        </h5>
+                        <span class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
+                            <i class="fas fa-cube mr-1 text-xs"></i>
+                            SDK/Library
+                        </span>
+                    </div>
+                    <p class="text-gray-600 mb-6 h-24 overflow-hidden text-sm">
+                        The Go LLM Wrapper is a pure Go interface for seamless integration with leading LLM APIs, including Anthropic's Claude and OpenAI. It supports a wide range of functionalities providing a robust solution for advanced language model integration in Go applications.
+                    </p>
+                    <div class="flex justify-between mt-auto pt-4 border-t border-gray-100">
+                        <button class="px-4 py-2 text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-300 flex items-center" data-bs-toggle="modal" data-bs-target="#infoModalLLMBridge">
+                            <i class="fas fa-info-circle mr-2"></i> Details
+                        </button>
+                        <a href="https://github.com/momokii/go-llmbridge" target="_blank" class="px-4 py-2 text-sm bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white rounded-lg transition-colors duration-300 shadow-sm hover:shadow flex items-center">
+                            <i class="fas fa-external-link-alt mr-2"></i> Visit
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GinVExpress -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-rose-100">
+                <div class="h-3 bg-gradient-to-r from-rose-400 to-red-500"></div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h5 class="text-xl font-bold text-gray-800 flex items-center">
+                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-rose-100 text-rose-600 mr-3">
+                                <i class="fas fa-flask text-lg"></i>
+                            </span>
+                            Thesis Project
+                        </h5>
+                        <span class="bg-rose-100 text-rose-700 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
+                            <i class="fas fa-microscope mr-1 text-xs"></i>
+                            Research
+                        </span>
+                    </div>
+                    <p class="text-gray-600 mb-6 h-24 overflow-hidden text-sm">
+                        A comprehensive comparison of API performance between Golang Gin and Node.js Express, tested with SQL and NoSQL
+                        databases, using K6 and deployed on Google Cloud Run.
+                    </p>
+                    <div class="flex justify-between mt-auto pt-4 border-t border-gray-100">
+                        <button class="px-4 py-2 text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-300 flex items-center" data-bs-toggle="modal" data-bs-target="#infoModalGinvexpress">
+                            <i class="fas fa-info-circle mr-2"></i> Details
+                        </button>
+                        <a href="https://ginvexpress.kelanach.xyz" target="_blank" class="px-4 py-2 text-sm bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white rounded-lg transition-colors duration-300 shadow-sm hover:shadow flex items-center">
+                            <i class="fas fa-external-link-alt mr-2"></i> Visit
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Applications Section -->
-        <div class="row g-3">
-
-            <!-- GOCCHAT -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title">Echo-Notes</h5>
-                            <p class="card-text" style="text-align: justify;">A web application designed to record real-life meetings, featuring seamless audio recording and intelligent summarization. Utilizing LLM-based speech-to-text (Whisper) for accurate transcription and GPT-series models for summarization.</p>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between mt-2">
-                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalEchoNotes">Info</button>
-                            <button class="btn btn-outline-success btn-sm" id="echonotes" type="button">Visit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- GOCCHAT -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title">GoChat</h5>
-                            <p class="card-text" style="text-align: justify;">A web chat application built with WebSocket technology, featuring real-time communication, user authentication, and customizable chat rooms. Includes an exciting new feature: a simulated dating app chat experience with AI integration.</p>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between mt-2">
-                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalGoChat">Info</button>
-                            <button class="btn btn-outline-success btn-sm" id="gochat" type="button">Visit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- GABUT PROJECT -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title">Gabut Project</h5>
-                            <p class="card-text">
-                                A creative web application exploring the potential of Large Language Models (LLMs) like OpenAI and Anthropic.
-                                Features include account roasts, website analyses, story generation, and creative content creation.
-                            </p>
-                        </div>
-                        <div class="d-flex justify-content-between mt-2">
-                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalGabutProject">Info</button>
-                            <button class="btn btn-outline-success btn-sm" type="button" id="llm">Visit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- GO WA NOTIFIER -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title">Go WA Notifier</h5>
-                            <p class="card-text">
-                                innovative web application designed to send the latest news straight to your WhatsApp! With an easy QR code login and seamless API integration with trusted news providers, staying updated has never been more exciting.
-                            </p>
-                        </div>
-                        <div class="d-flex justify-content-between mt-2">
-                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalWANotifier">Info</button>
-                            <a href="https://github.com/momokii/go-wa-notifier" target="_blank" class="btn btn-outline-success btn-sm">Visit</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- LLM BRIDGE -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title">Go LLM Bridge</h5>
-                            <p class="card-text">
-                                The Go LLM Wrapper is a pure Go interface for seamless integration with leading LLM APIs, including Anthropic’s Claude and OpenAI. It supports a wide range of functionalities providing a robust solution for advanced language model integration in Go applications.
-                            </p>
-                        </div>
-                        <div class="d-flex justify-content-between mt-2">
-                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalLLMBridge">Info</button>
-                            <a href="https://github.com/momokii/go-llmbridge" target="_blank" class="btn btn-outline-success btn-sm">Visit</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ginvexpress -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title">Thesis Project - GinVExpress</h5>
-                            <p class="card-text">
-                                A comprehensive comparison of API performance between Golang Gin and Node.js Express, tested with SQL and NoSQL
-                                databases, using K6 and deployed on Google Cloud Run.
-                            </p>
-                        </div>
-                        <div class="d-flex justify-content-between mt-2">
-                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalGinvexpress">Info</button>
-                            <a href="https://ginvexpress.kelanach.xyz" target="_blank" class="btn btn-outline-success btn-sm">Visit</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TEMPLATE HERE CARD APP-->
-            <!-- <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title">-</h5>
-                            <p class="card-text">
-                                -
-                            </p>
-                        </div>
-                        <div class="d-flex justify-content-between mt-2">
-                            <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModalGinvexpress">Info</button>
-                            <a href="/" target="_blank" class="btn btn-outline-success btn-sm">Visit</a>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-
-        </div>
-
-        <!-- Modal -->
+        <!-- Modals (Preserving functionality) -->
         <!-- Modal for Edit Username -->
         <div class="modal fade" id="editUsernameModal" tabindex="-1" aria-labelledby="editUsernameModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editUsernameModalLabel">Edit Username</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                    <div class="modal-header bg-gradient-to-r from-blue-500 to-blue-600 text-white border-0">
+                        <h5 class="modal-title text-lg font-medium" id="editUsernameModalLabel">Edit Username</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body p-6">
                         <form id="editUsernameForm">
-                            <div class="mb-3">
-                                <label class="form-label">Username</label>
-                                <input type="text" class="form-control" 
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Current Username</label>
+                                <input type="text" class="w-full px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-lg" 
                                 value="username" id="usernameEditCurrentInput"
                                 disabled>
                             </div>
-                            <div class="mb-3">
-                                <label for="usernameEditInput" class="form-label">New Username</label>
-                                <input type="text" class="form-control" id="usernameEditInput" placeholder="Enter New Username" 
+                            <div class="mb-4">
+                                <label for="usernameEditInput" class="block text-sm font-medium text-gray-700 mb-1">New Username</label>
+                                <input type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="usernameEditInput" placeholder="Enter New Username" 
                                 value="username"
                                 required maxlength="50" minlength="1">
                             </div>
-                            <button type="submit" class="btn btn-success">Edit Username</button>
+                            <button type="submit" class="px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">Edit Username</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-
-
 
         <!-- Modal for Edit Password -->
         <div class="modal fade" id="editPasswordModal" tabindex="-1" aria-labelledby="editPasswordModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editPasswordModalLabel">Edit Password</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                    <div class="modal-header bg-gradient-to-r from-blue-500 to-blue-600 text-white border-0">
+                        <h5 class="modal-title text-lg font-medium" id="editPasswordModalLabel">Edit Password</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body p-6">
                         <form id="editPasswordForm">
-                            <div class="mb-3">
-                                <label for="passwordEditNowInput" class="form-label">Password Now</label>
-                                <input type="password" class="form-control"  id="passwordEditNowInput"
+                            <div class="mb-4">
+                                <label for="passwordEditNowInput" class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                                <input type="password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="passwordEditNowInput"
                                 placeholder="Enter Current Password" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="passwordEditNewInput" class="form-label">New Password</label>
-                                <input type="password" class="form-control"  id="passwordEditNewInput"
+                            <div class="mb-4">
+                                <label for="passwordEditNewInput" class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                                <input type="password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="passwordEditNewInput"
                                 placeholder="Enter New Password" required minlength="6">
                             </div>
-                            <div class="mb-3">
-                                <label for="passwordEditConfirmInput" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control"  id="passwordEditConfirmInput"
+                            <div class="mb-4">
+                                <label for="passwordEditConfirmInput" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                                <input type="password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="passwordEditConfirmInput"
                                 placeholder="Enter Confirm New Password" required minlength="6">
                             </div>
-                            <button type="submit" class="btn btn-success">Edit Password</button>
+                            <button type="submit" class="px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">Edit Password</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Keeping all existing modals with better styling -->
         <!-- MODAL ECHO NOTES -->
         <div class="modal fade" id="infoModalEchoNotes" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="infoModalLabel">Echo Notes - App Information</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                    <div class="modal-header bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-0">
+                        <h5 class="modal-title text-lg font-medium" id="infoModalLabel">Echo Notes - App Information</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <h5 class="text-center mb-3">Echo Notes – Capture & Summarize Your Meetings</h5>
-                        <p class="text-muted text-center">An intelligent web app for recording, transcribing, and summarizing real-life conversations.</p>
-                    
-                        <h6 class="mt-4">Project Overview</h6>
-                        <p>
-                            Echo-Notes is a personal project designed to streamline the process of capturing and summarizing real-world meetings. 
-                            Built with <strong>Golang</strong> using the <strong>Fiber</strong> framework, <strong>PostgreSQL</strong>, and a sleek interface powered by 
-                            <strong>HTML, Bootstrap</strong>, and <strong>jQuery</strong>, this app integrates cutting-edge AI technology to deliver efficient meeting insights.
-                        </p>
-                    
-                        <h6 class="mt-4">Key Features</h6>
-                        <ul>
-                            <li>
-                                <strong>Seamless Audio Recording:</strong>
-                                <br>Record real-life meetings directly within the web app with high-quality audio capture.
-                            </li>
-                            <li class="mt-2">
-                                <strong>AI-Powered Transcription:</strong>
-                                <br>Convert speech to text in real time using <strong>Whisper</strong> (OpenAI's advanced speech-to-text model).
-                            </li>
-                            <li class="mt-2">
-                                <strong>Smart Summarization:</strong>
-                                <br>Generate two types of summaries with <strong>GPT-based AI</strong>:
-                                <ul>
-                                    <li><em>Simple Summary</em> – A concise version highlighting key points.</li>
-                                    <li><em>Comprehensive Summary</em> – A detailed breakdown for deeper insights.</li>
-                                </ul>
-                            </li>
-                            <li class="mt-2">
-                                <strong>Secure & Personalized:</strong>
-                                <br>Save, organize, and revisit meeting records with user authentication and session management.
-                            </li>
-                        </ul>
-                    
-                        <h6 class="mt-4">Why Echo-Notes?</h6>
-                        <p>
-                            Echo-Notes is more than just a recording tool, it's an intelligent assistant for busy professionals, teams, and students.
-                            By leveraging AI-powered transcription and summarization, it enhances productivity and ensures no important detail is missed.
-                        </p>
-                    </div>                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-body p-0">
+                        <!-- Visual Header -->
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 border-b border-gray-100">
+                            <div class="flex flex-col md:flex-row items-center gap-6">
+                                <div class="flex-shrink-0">
+                                    <div class="w-20 h-20 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 text-3xl shadow-md">
+                                        <i class="fas fa-headphones"></i>
+                                    </div>
+                                </div>
+                                <div class="text-center w-full">
+                                    <h5 class="text-2xl font-bold text-gray-800 mb-2">Echo Notes</h5>
+                                    <p class="text-gray-600 max-w-2xl mx-auto">An intelligent web app for recording, transcribing, and summarizing real-life conversations using AI technology.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Content Area -->
+                        <div class="p-8">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                                <!-- Left Side Tech Stack -->
+                                <div class="md:col-span-1">
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mb-4">Technologies</h6>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+                                                <i class="fas fa-code"></i>
+                                            </span>
+                                            <span>Golang (Fiber)</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-indigo-100 text-indigo-600 mr-3">
+                                                <i class="fas fa-database"></i>
+                                            </span>
+                                            <span>PostgreSQL</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 mr-3">
+                                                <i class="fas fa-brain"></i>
+                                            </span>
+                                            <span>OpenAI APIs</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-green-100 text-green-600 mr-3">
+                                                <i class="fas fa-paint-brush"></i>
+                                            </span>
+                                            <span>Bootstrap & jQuery</span>
+                                        </li>
+                                    </ul>
+
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mt-8 mb-4">Target Users</h6>
+                                    <div class="space-y-2">
+                                        <div class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-sm">Professionals</div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-green-50 text-green-700 text-sm">Meeting Organizers</div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-purple-50 text-purple-700 text-sm">Students</div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 text-sm">Researchers</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Right Side Feature Details -->
+                                <div class="md:col-span-3">
+                                    <h6 class="text-xl font-semibold text-gray-800 mb-4">Key Features</h6>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3 mt-1">
+                                                    <i class="fas fa-microphone"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Seamless Audio Recording</h3>
+                                                    <p class="text-gray-600 text-sm">Record real-life meetings directly within the web app with high-quality audio capture.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 mr-3 mt-1">
+                                                    <i class="fas fa-comment-alt"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">AI-Powered Transcription</h3>
+                                                    <p class="text-gray-600 text-sm">Convert speech to text in real time using Whisper (OpenAI's advanced speech-to-text model).</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-green-100 text-green-600 mr-3 mt-1">
+                                                    <i class="fas fa-lightbulb"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Smart Summarization</h3>
+                                                    <p class="text-gray-600 text-sm">Generate concise summaries and detailed breakdowns with GPT-based AI models.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-amber-100 text-amber-600 mr-3 mt-1">
+                                                    <i class="fas fa-lock"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Secure & Personalized</h3>
+                                                    <p class="text-gray-600 text-sm">Save, organize, and revisit meeting records with user authentication and session management.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-blue-50 p-6 rounded-xl border border-blue-100 mb-6">
+                                        <h6 class="text-lg font-semibold text-gray-800 mb-3">Why Echo-Notes?</h6>
+                                        <p class="text-gray-700">
+                                            Echo-Notes is more than just a recording tool, it's an intelligent assistant for busy professionals, teams, and students.
+                                            By leveraging AI-powered transcription and summarization, it enhances productivity and ensures no important detail is missed.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 bg-gray-50">
+                        <button type="button" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -308,117 +559,294 @@
 
         <!-- MODAL GO CHAT -->
         <div class="modal fade" id="infoModalGoChat" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="infoModalLabel">GoChat - App Information</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                    <div class="modal-header bg-gradient-to-r from-purple-500 to-indigo-600 text-white border-0">
+                        <h5 class="modal-title text-lg font-medium" id="infoModalLabel">GoChat - App Information</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <h5 class="text-center mb-3">GoChat – Your All-in-One Chat Platform</h5>
-                        <p class="text-muted text-center">A seamless real-time communication experience powered by
-                            modern technology.</p>
+                    <div class="modal-body p-0">
+                        <!-- Visual Header -->
+                        <div class="bg-gradient-to-r from-purple-50 to-indigo-50 p-8 border-b border-gray-100">
+                            <div class="flex flex-col md:flex-row items-center gap-6">
+                                <div class="flex-shrink-0">
+                                    <div class="w-20 h-20 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 text-3xl shadow-md">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                </div>
+                                <div class="text-center w-full">
+                                    <h5 class="text-2xl font-bold text-gray-800 mb-2">GoChat</h5>
+                                    <p class="text-gray-600 max-w-2xl mx-auto">A seamless real-time communication experience built with modern WebSocket technology.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Content Area -->
+                        <div class="p-8">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                                <!-- Left Side Tech Stack -->
+                                <div class="md:col-span-1">
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mb-4">Technologies</h6>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 mr-3">
+                                                <i class="fas fa-code"></i>
+                                            </span>
+                                            <span>Golang (Fiber)</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+                                                <i class="fas fa-database"></i>
+                                            </span>
+                                            <span>PostgreSQL</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-green-100 text-green-600 mr-3">
+                                                <i class="fas fa-exchange-alt"></i>
+                                            </span>
+                                            <span>WebSockets</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-amber-100 text-amber-600 mr-3">
+                                                <i class="fas fa-paint-brush"></i>
+                                            </span>
+                                            <span>Bootstrap & jQuery</span>
+                                        </li>
+                                    </ul>
 
-                        <h6 class="mt-4">Project Overview</h6>
-                        <p>
-                            GoChat is a personal project that demonstrates the implementation of WebSocket technology to
-                            deliver a smooth real-time chat experience.
-                            Built using <strong>Golang</strong> with the <strong>Fiber</strong> framework,
-                            <strong>PostgreSQL</strong>, and a clean user interface utilizing <strong>HTML,
-                                Bootstrap</strong>, and <strong>jQuery</strong>.
-                        </p>
-
-                        <h6 class="mt-4">Key Features</h6>
-                        <ul>
-                            <li>
-                                <strong>User Authentication and Personalization:</strong>
-                                <br>Secure login functionality and customizable user profiles.
-                            </li>
-                            <li class="mt-2">
-                                <strong>Dynamic Chat Rooms:</strong>
-                                <br>Create and customize chat rooms with options for public or private settings.
-                            </li>
-                            <li class="mt-2">
-                                <strong>Simulated Dating App Chat:</strong>
-                                <br>Interact with AI (powered by GPT by OpenAI) in a simulation inspired by dating apps
-                                like Tinder and Bumble. Practice communication skills in a fun and engaging way with
-                                tailored rooms for unique experiences.
-                            </li>
-                        </ul>
-
-                        <h6 class="mt-4">Why GoChat?</h6>
-                        <p>
-                            GoChat is more than just a messaging app—it’s a showcase of <em>modern technology</em>,
-                            <em>creative design</em>, and <em>innovation</em>.
-                            It not only provides an exceptional user experience but also serves as a compelling addition
-                            to my portfolio.
-                        </p>
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mt-8 mb-4">Features</h6>
+                                    <div class="space-y-2">
+                                        <div class="px-3 py-1.5 rounded-lg bg-purple-50 text-purple-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-bolt mr-2 text-xs"></i>
+                                            Real-time Chat
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-user-shield mr-2 text-xs"></i>
+                                            Secure Authentication
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-green-50 text-green-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-robot mr-2 text-xs"></i>
+                                            AI Integration
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-amber-50 text-amber-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-users mr-2 text-xs"></i>
+                                            Custom Chat Rooms
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Right Side Feature Details -->
+                                <div class="md:col-span-3">
+                                    <h6 class="text-xl font-semibold text-gray-800 mb-4">Key Features</h6>
+                                    
+                                    <div class="space-y-6 mb-8">
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 mr-4 mt-1">
+                                                    <i class="fas fa-user-lock"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-2">User Authentication and Personalization</h3>
+                                                    <p class="text-gray-600">Secure login functionality with personalized profiles and settings. Users can customize their experience and maintain a unique identity across chat sessions.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-4 mt-1">
+                                                    <i class="fas fa-users"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-2">Dynamic Chat Rooms</h3>
+                                                    <p class="text-gray-600">Create and customize chat rooms with options for public or private settings. Room creators can set visibility preferences and invite specific users to join their conversations.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-green-100 text-green-600 mr-4 mt-1">
+                                                    <i class="fas fa-heart"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-2">Simulated Dating App Chat</h3>
+                                                    <p class="text-gray-600">Interact with AI (powered by GPT by OpenAI) in a simulation inspired by dating apps like Tinder and Bumble. Practice communication skills in a fun and engaging way with tailored rooms for unique experiences.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-purple-50 p-6 rounded-xl border border-purple-100 mb-6">
+                                        <h6 class="text-lg font-semibold text-gray-800 mb-3">Why GoChat?</h6>
+                                        <p class="text-gray-700">
+                                            GoChat is more than just a messaging app—it's a showcase of <em>modern technology</em>,
+                                            <em>creative design</em>, and <em>innovation</em>.
+                                            It not only provides an exceptional user experience but also serves as a compelling addition
+                                            to my portfolio.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-footer border-0 bg-gray-50">
+                        <button type="button" class="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Keep all other modals with the same content but updated styling -->
         <!-- GABUT PROJECT -->
         <div class="modal fade" id="infoModalGabutProject" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="infoModalLabel">Gabut Project - App Information</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                    <div class="modal-header bg-gradient-to-r from-green-500 to-emerald-600 text-white border-0">
+                        <h5 class="modal-title text-lg font-medium" id="infoModalLabel">Gabut Project - App Information</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <h5 class="text-center mb-3">Gabut Project – Unleashing the Power of Large Language Models
-                            (LLMs)</h5>
-                        <p class="text-muted text-center">Exploring the possibilities of LLMs by blending creativity and
-                            technology into practical applications.</p>
+                    <div class="modal-body p-0">
+                        <!-- Visual Header -->
+                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-8 border-b border-gray-100">
+                            <div class="flex flex-col md:flex-row items-center gap-6">
+                                <div class="flex-shrink-0">
+                                    <div class="w-20 h-20 rounded-full flex items-center justify-center bg-green-100 text-green-600 text-3xl shadow-md">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                </div>
+                                <div class="text-center w-full">
+                                    <h5 class="text-2xl font-bold text-gray-800 mb-2">Gabut Project</h5>
+                                    <p class="text-gray-600 max-w-2xl mx-auto">Exploring the possibilities of Large Language Models by blending creativity and technology into practical applications.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Content Area -->
+                        <div class="p-8">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                                <!-- Left Side Tech Stack -->
+                                <div class="md:col-span-1">
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mb-4">LLM Providers</h6>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+                                                <i class="fas fa-brain"></i>
+                                            </span>
+                                            <span>OpenAI</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 mr-3">
+                                                <i class="fas fa-microchip"></i>
+                                            </span>
+                                            <span>Anthropic</span>
+                                        </li>
+                                    </ul>
 
-                        <h6 class="mt-4">Project Overview</h6>
-                        <p>
-                            The Gabut Project is a personal initiative aimed at experimenting with the potential of
-                            Large Language Models (LLMs) across diverse domains.
-                            This project leverages
-                            technologies from providers like <strong>OpenAI</strong> and <strong>Anthropic</strong> to
-                            deliver innovative and engaging features.
-                        </p>
-
-                        <h6 class="mt-4">Key Features</h6>
-                        <ul>
-                            <li>
-                                <strong>Medium Account Roast:</strong>
-                                <br>A playful yet insightful analysis of your Medium account to improve your online
-                                presence with humorous feedback.
-                            </li>
-                            <li class="mt-2">
-                                <strong>Baku Hantam X Website Roast/Analysis:</strong>
-                                <br>Deep dive into Baku Hantam X, a website that compiles summaries of 'Baku Hantam' tweets from the X platform. It attempts to scrape, roast, and condense them into concise summaries for users.
-                            </li>
-                            <li class="mt-2">
-                                <strong>Butterfly Effect Stories Generator:</strong>
-                                <br>Generate imaginative "What if?" scenarios, creating branching stories that showcase
-                                the creativity and adaptability of LLMs.
-                            </li>
-                            <li class="mt-2">
-                                <strong>Creative Content Generator:</strong>
-                                <br>Simplify content creation by generating high-quality articles, captions, and other
-                                creative materials tailored to user needs.
-                            </li>
-                        </ul>
-
-                        <h6 class="mt-4">Why Gabut Project?</h6>
-                        <p>
-                            The Gabut Project is a testament to curiosity-driven learning, pushing the boundaries of
-                            what's possible with LLMs. It demonstrates how <em>cutting-edge technologies</em> can be
-                            applied to real-world use cases.
-                            More than just a portfolio piece, it serves as a playground for <em>innovation</em>,
-                            showcasing the creative potential of LLMs in practical and engaging ways.
-                        </p>
+                                    <div class="mt-8 bg-green-50 p-4 rounded-lg border border-green-100">
+                                        <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mb-3">Benefits</h6>
+                                        <ul class="space-y-2 text-sm text-gray-700">
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                </svg>
+                                                Creative Content Generation
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                </svg>
+                                                Insightful Analysis
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                </svg>
+                                                Engaging User Experience
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                </svg>
+                                                Innovative Applications
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <!-- Right Side Feature Details -->
+                                <div class="md:col-span-3">
+                                    <h6 class="text-xl font-semibold text-gray-800 mb-4">Featured Applications</h6>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all h-full">
+                                            <div class="flex items-start mb-3">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-amber-100 text-amber-600 mr-3">
+                                                    <i class="fab fa-medium"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Medium Account Roast</h3>
+                                                    <p class="text-gray-600 text-sm">A playful yet insightful analysis of your Medium account to improve your online presence with humorous feedback.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all h-full">
+                                            <div class="flex items-start mb-3">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+                                                    <i class="fab fa-twitter"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Baku Hantam X Website</h3>
+                                                    <p class="text-gray-600 text-sm">Deep dive into Baku Hantam X, a website that compiles summaries of 'Baku Hantam' tweets from the X platform with roasting and concise summaries.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all h-full">
+                                            <div class="flex items-start mb-3">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-indigo-100 text-indigo-600 mr-3">
+                                                    <i class="fas fa-book"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Butterfly Effect Stories</h3>
+                                                    <p class="text-gray-600 text-sm">Generate imaginative "What if?" scenarios, creating branching stories that showcase the creativity and adaptability of LLMs.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all h-full">
+                                            <div class="flex items-start mb-3">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-rose-100 text-rose-600 mr-3">
+                                                    <i class="fas fa-pen-fancy"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Creative Content Generator</h3>
+                                                    <p class="text-gray-600 text-sm">Simplify content creation by generating high-quality articles, captions, and other creative materials tailored to user needs.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-green-50 p-6 rounded-xl border border-green-100 mb-6">
+                                        <h6 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                                            <i class="fas fa-lightbulb mr-2 text-green-500"></i>
+                                            Why Gabut Project?
+                                        </h6>
+                                        <p class="text-gray-700">
+                                            The Gabut Project is a testament to curiosity-driven learning, pushing the boundaries of
+                                            what's possible with LLMs. It demonstrates how <em>cutting-edge technologies</em> can be
+                                            applied to real-world use cases.
+                                            More than just a portfolio piece, it serves as a playground for <em>innovation</em>,
+                                            showcasing the creative potential of LLMs in practical and engaging ways.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-footer border-0 bg-gray-50">
+                        <button type="button" class="px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -426,42 +854,151 @@
 
         <!-- GO WA NOTIFIER -->
         <div class="modal fade" id="infoModalWANotifier" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="infoModalLabel">Go WA Bridge</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                    <div class="modal-header bg-gradient-to-r from-amber-500 to-yellow-600 text-white border-0">
+                        <h5 class="modal-title text-lg font-medium" id="infoModalLabel">Go WA Notifier - App Information</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <h5 class="text-center mb-3">Go WA Notifier – News Straight to Your WhatsApp</h5>
-                        <p class="text-muted text-center">A fun and innovative application delivering real-time news updates via WhatsApp messaging.</p>
-                    
-                        <h6 class="mt-4">Project Overview</h6>
-                        <p>
-                            Go-WA-Notifier is an innovative web application designed to deliver the latest news directly to your WhatsApp. 
-                            Built with <strong>Golang Fiber</strong> and featuring a clean user interface powered by <strong>HTML, Bootstrap</strong>, and <strong>jQuery</strong>,
-                            this application combines convenience with cutting-edge technology to keep you informed on the go.
-                        </p>
-                    
-                        <h6 class="mt-4">Key Features</h6>
-                        <ul>
-                            <li><strong>📱 WhatsApp News Notifications:</strong> Get the freshest news delivered directly to your WhatsApp, ensuring you never miss out on the latest buzz.</li>
-                            <li class="mt-2"><strong>🔐 QR Code Login:</strong> Quick and secure authentication via QR code scanning for effortless connection to your WhatsApp account.</li>
-                            <li class="mt-2"><strong>📰 News API Integration:</strong> Fetch real-time news from trusted news APIs with a curated selection of relevant content.</li>
-                            <li class="mt-2"><strong>☁️ Weather Notifier:</strong> Integrated with OpenWeatherAPI to deliver daily forecasts along with personalized recommendations to help plan your day.</li>
-                            <li class="mt-2"><strong>💬 Custom Message Notifications:</strong> Send custom notifications directly to specified WhatsApp numbers with flexible message content for various use cases.</li>
-                            <li class="mt-2"><strong>🎨 Clean and Modern UI:</strong> Responsive and engaging user experience with intuitive navigation.</li>
-                            <li class="mt-2"><strong>⚡ Robust Backend:</strong> Lightning-fast performance and efficient processing with a scalable architecture designed for high-volume notifications.</li>
-                        </ul>
-                    
-                        <h6 class="mt-4">Why This Project Matters?</h6>
-                        <p>
-                            Go-WA-Notifier represents the perfect blend of utility and innovation, showcasing the powerful combination of modern web technologies and automated WhatsApp notifications. It demonstrates how everyday tasks like staying informed can be reimagined through technology to create more convenient, engaging user experiences.
-                        </p>
+                    <div class="modal-body p-0">
+                        <!-- Visual Header -->
+                        <div class="bg-gradient-to-r from-amber-50 to-yellow-50 p-8 border-b border-gray-100">
+                            <div class="flex flex-col md:flex-row items-center gap-6">
+                                <div class="flex-shrink-0">
+                                    <div class="w-20 h-20 rounded-full flex items-center justify-center bg-amber-100 text-amber-600 text-3xl shadow-md">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </div>
+                                </div>
+                                <div class="text-center w-full">
+                                    <h5 class="text-2xl font-bold text-gray-800 mb-2">Go WA Notifier</h5>
+                                    <p class="text-gray-600 max-w-2xl mx-auto">A fun and innovative application delivering real-time news updates via WhatsApp messaging.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Content Area -->
+                        <div class="p-8">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                                <!-- Left Side Tech Stack -->
+                                <div class="md:col-span-1">
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mb-4">Technologies</h6>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-amber-100 text-amber-600 mr-3">
+                                                <i class="fas fa-code"></i>
+                                            </span>
+                                            <span>Golang (Fiber)</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-green-100 text-green-600 mr-3">
+                                                <i class="fab fa-whatsapp"></i>
+                                            </span>
+                                            <span>WhatsApp API</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+                                                <i class="fas fa-newspaper"></i>
+                                            </span>
+                                            <span>News APIs</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-amber-100 text-amber-600 mr-3">
+                                                <i class="fas fa-paint-brush"></i>
+                                            </span>
+                                            <span>Bootstrap & jQuery</span>
+                                        </li>
+                                    </ul>
+
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mt-8 mb-4">Features</h6>
+                                    <div class="space-y-2">
+                                        <div class="px-3 py-1.5 rounded-lg bg-amber-50 text-amber-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-newspaper mr-2 text-xs"></i>
+                                            News Notifications
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-cloud-sun mr-2 text-xs"></i>
+                                            Weather Alerts
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-green-50 text-green-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-qrcode mr-2 text-xs"></i>
+                                            QR Code Login
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-comment-dots mr-2 text-xs"></i>
+                                            Custom Messages
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Right Side Feature Details -->
+                                <div class="md:col-span-3">
+                                    <h6 class="text-xl font-semibold text-gray-800 mb-4">Key Features</h6>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-amber-100 text-amber-600 mr-3 mt-1">
+                                                    <i class="fab fa-whatsapp"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">WhatsApp News Notifications</h3>
+                                                    <p class="text-gray-600 text-sm">Get the freshest news delivered directly to your WhatsApp, ensuring you never miss out on the latest buzz.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-green-100 text-green-600 mr-3 mt-1">
+                                                    <i class="fas fa-qrcode"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">QR Code Login</h3>
+                                                    <p class="text-gray-600 text-sm">Quick and secure authentication via QR code scanning for effortless connection to your WhatsApp account.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3 mt-1">
+                                                    <i class="fas fa-cloud-sun"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Weather Notifier</h3>
+                                                    <p class="text-gray-600 text-sm">Integrated with OpenWeatherAPI to deliver daily forecasts with personalized recommendations to help plan your day.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-rose-100 text-rose-600 mr-3 mt-1">
+                                                    <i class="fas fa-comment-dots"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Custom Message Notifications</h3>
+                                                    <p class="text-gray-600 text-sm">Send custom notifications directly to specified WhatsApp numbers with flexible message content for various use cases.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-amber-50 p-6 rounded-xl border border-amber-100 mb-6">
+                                        <h6 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                                            <i class="fas fa-lightbulb mr-2 text-amber-500"></i>
+                                            Why Go WA Notifier?
+                                        </h6>
+                                        <p class="text-gray-700">
+                                            Go-WA-Notifier represents the perfect blend of utility and innovation, showcasing the powerful combination of modern web technologies and automated WhatsApp notifications. It demonstrates how everyday tasks like staying informed can be reimagined through technology to create more convenient, engaging user experiences.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-footer border-0 bg-gray-50">
+                        <button type="button" class="px-5 py-2.5 bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-700 hover:to-yellow-700 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -469,42 +1006,151 @@
 
         <!-- LLM BRIDGER -->
         <div class="modal fade" id="infoModalLLMBridge" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="infoModalLabel">Go LLM Bridge</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                    <div class="modal-header bg-gradient-to-r from-indigo-500 to-blue-600 text-white border-0">
+                        <h5 class="modal-title text-lg font-medium" id="infoModalLabel">Go LLM Bridge - App Information</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <h5 class="text-center mb-3">Go LLM Wrapper – A Pure Go Interface for LLM APIs</h5>
-                        <p class="text-muted text-center">Streamline your integration with advanced LLM capabilities including text, vision, and audio.</p>
-                    
-                        <h6 class="mt-4">Project Overview</h6>
-                        <p>
-                            The Go LLM Wrapper provides a streamlined, pure Go interface for interacting with leading LLM APIs such as <strong>Anthropic’s Claude</strong> and <strong>OpenAI</strong>. 
-                            Designed with zero external dependencies, this lightweight wrapper supports an extensive range of functionalities—ranging from text processing and vision tasks to advanced audio processing.
-                            It simplifies the integration of cutting-edge language model capabilities into your Go applications.
-                        </p>
-                    
-                        <h6 class="mt-4">Key Features</h6>
-                        <ul>
-                            <li><strong>🚀 Pure Go Implementation:</strong> Built with pure Go and zero external dependencies for optimal performance.</li>
-                            <li class="mt-2"><strong>💬 Multiple Provider Support:</strong> Seamlessly integrates with both Anthropic and OpenAI.</li>
-                            <li class="mt-2"><strong>👁️ Comprehensive Capabilities:</strong> Supports both text-based operations and vision functionalities.</li>
-                            <li class="mt-2"><strong>🎙️ Audio Processing:</strong> Offers state-of-the-art text-to-speech and speech-to-text features.</li>
-                            <li class="mt-2"><strong>🖼️ Image Generation:</strong> Leverages DALL-E for creative image generation.</li>
-                            <li class="mt-2"><strong>⚡ Minimal and Efficient:</strong> Optimized for speed and low resource consumption.</li>
-                            <li class="mt-2"><strong>🛠️ Flexible Configuration:</strong> Provides customizable options tailored to each provider.</li>
-                        </ul>
-                    
-                        <h6 class="mt-4">Why This Project Matters?</h6>
-                        <p>
-                            This project exemplifies modern API design with a focus on efficiency and versatility. By delivering a pure Go solution for integrating advanced LLM functionalities, it empowers developers to build smarter applications, accelerate innovation, and reduce development overhead.
-                        </p>
-                    </div>                                     
-                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-body p-0">
+                        <!-- Visual Header -->
+                        <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-8 border-b border-gray-100">
+                            <div class="flex flex-col md:flex-row items-center gap-6">
+                                <div class="flex-shrink-0">
+                                    <div class="w-20 h-20 rounded-full flex items-center justify-center bg-indigo-100 text-indigo-600 text-3xl shadow-md">
+                                        <i class="fas fa-code"></i>
+                                    </div>
+                                </div>
+                                <div class="text-center w-full">
+                                    <h5 class="text-2xl font-bold text-gray-800 mb-2">Go LLM Bridge</h5>
+                                    <p class="text-gray-600 max-w-2xl mx-auto">A Pure Go Interface for seamless integration with leading LLM APIs including Anthropic's Claude and OpenAI.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Content Area -->
+                        <div class="p-8">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                                <!-- Left Side Tech Stack -->
+                                <div class="md:col-span-1">
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mb-4">Technologies</h6>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-indigo-100 text-indigo-600 mr-3">
+                                                <i class="fas fa-code"></i>
+                                            </span>
+                                            <span>Golang</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 mr-3">
+                                                <i class="fas fa-brain"></i>
+                                            </span>
+                                            <span>OpenAI API</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+                                                <i class="fas fa-microchip"></i>
+                                            </span>
+                                            <span>Anthropic API</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-green-100 text-green-600 mr-3">
+                                                <i class="fas fa-cube"></i>
+                                            </span>
+                                            <span>Zero Dependencies</span>
+                                        </li>
+                                    </ul>
+
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mt-8 mb-4">Features</h6>
+                                    <div class="space-y-2">
+                                        <div class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-comment-alt mr-2 text-xs"></i>
+                                            Text Processing
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-eye mr-2 text-xs"></i>
+                                            Vision APIs
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-purple-50 text-purple-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-volume-up mr-2 text-xs"></i>
+                                            Audio Processing
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-image mr-2 text-xs"></i>
+                                            Image Generation
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Right Side Feature Details -->
+                                <div class="md:col-span-3">
+                                    <h6 class="text-xl font-semibold text-gray-800 mb-4">Key Features</h6>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-indigo-100 text-indigo-600 mr-3 mt-1">
+                                                    <i class="fas fa-feather"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Pure Go Implementation</h3>
+                                                    <p class="text-gray-600 text-sm">Built with 100% Go and zero external dependencies for optimal performance and lightweight integration.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3 mt-1">
+                                                    <i class="fas fa-plug"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Multiple Provider Support</h3>
+                                                    <p class="text-gray-600 text-sm">Seamlessly integrate with both Anthropic Claude and OpenAI models through a unified interface.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 mr-3 mt-1">
+                                                    <i class="fas fa-microphone"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Advanced Audio Processing</h3>
+                                                    <p class="text-gray-600 text-sm">Utilize state-of-the-art text-to-speech and speech-to-text capabilities through simple Go functions.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-rose-100 text-rose-600 mr-3 mt-1">
+                                                    <i class="fas fa-palette"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">DALL-E Integration</h3>
+                                                    <p class="text-gray-600 text-sm">Leverage OpenAI's DALL-E model for AI-powered image generation directly from your Go applications.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-100 mb-6">
+                                        <h6 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                                            <i class="fas fa-lightbulb mr-2 text-indigo-500"></i>
+                                            Why Go LLM Bridge?
+                                        </h6>
+                                        <p class="text-gray-700">
+                                            This project exemplifies modern API design with a focus on efficiency and versatility. By delivering a pure Go solution for integrating advanced LLM functionalities, it empowers developers to build smarter applications, accelerate innovation, and reduce development overhead. The library is optimized for speed and low resource consumption while providing the flexibility needed for diverse AI applications.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 bg-gray-50">
+                        <button type="button" class="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -512,86 +1158,180 @@
 
         <!-- GIN V EXPRESS -->
         <div class="modal fade" id="infoModalGinvexpress" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="infoModalLabel">GinVExpress - App Information</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                    <div class="modal-header bg-gradient-to-r from-rose-500 to-red-600 text-white border-0">
+                        <h5 class="modal-title text-lg font-medium" id="infoModalLabel">Thesis Project - App Information</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <h5 class="text-center mb-3">Thesis Project – API Performance Comparison: Golang Gin vs. Node.js
-                            Express</h5>
-                        <p class="text-muted text-center">A comprehensive performance analysis of API frameworks with
-                            SQL and NoSQL databases.</p>
+                    <div class="modal-body p-0">
+                        <!-- Visual Header -->
+                        <div class="bg-gradient-to-r from-rose-50 to-red-50 p-8 border-b border-gray-100">
+                            <div class="flex flex-col md:flex-row items-center gap-6">
+                                <div class="flex-shrink-0">
+                                    <div class="w-20 h-20 rounded-full flex items-center justify-center bg-rose-100 text-rose-600 text-3xl shadow-md">
+                                        <i class="fas fa-flask"></i>
+                                    </div>
+                                </div>
+                                <div class="text-center w-full">
+                                    <h5 class="text-2xl font-bold text-gray-800 mb-2">GinVExpress</h5>
+                                    <p class="text-gray-600 max-w-2xl mx-auto">API Performance Comparison: Golang Gin vs. Node.js Express - A comprehensive analysis with SQL and NoSQL databases.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Content Area -->
+                        <div class="p-8">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                                <!-- Left Side Tech Stack -->
+                                <div class="md:col-span-1">
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mb-4">Technologies</h6>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-rose-100 text-rose-600 mr-3">
+                                                <i class="fas fa-code"></i>
+                                            </span>
+                                            <span>Golang (Gin)</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-green-100 text-green-600 mr-3">
+                                                <i class="fab fa-node-js"></i>
+                                            </span>
+                                            <span>Node.js (Express)</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+                                                <i class="fas fa-database"></i>
+                                            </span>
+                                            <span>PostgreSQL & MongoDB</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 mr-3">
+                                                <i class="fas fa-cloud"></i>
+                                            </span>
+                                            <span>Google Cloud Run</span>
+                                        </li>
+                                    </ul>
 
-                        <h6 class="mt-4">Project Overview</h6>
-                        <p>
-                            My final university project explores the performance differences between APIs developed with
-                            <strong>Golang Gin</strong> and <strong>Node.js Express</strong>, connected to two distinct
-                            database types—<strong>SQL (PostgreSQL)</strong> and <strong>NoSQL (MongoDB)</strong>.
-                            The study involves four comprehensive test cases, with all APIs implemented as <strong>URL
-                                shortener services</strong> to ensure consistent functionality and fair benchmarking.
-                        </p>
-
-                        <h6 class="mt-4">Key Focus Areas</h6>
-                        <ul>
-                            <li>
-                                <strong>Testing Environment:</strong>
-                                <br>Both APIs are deployed on <strong>Google Cloud Run</strong>, ensuring identical
-                                environments to eliminate external factors influencing the results.
-                            </li>
-                            <li class="mt-2">
-                                <strong>Performance Testing:</strong>
-                                <br>Utilizing the <strong>K6 tool</strong>, tests focus on critical metrics such as
-                                iterations per second, CPU utilization, memory consumption, and response times under
-                                various workloads.
-                            </li>
-                            <li class="mt-2">
-                                <strong>Key Insights:</strong>
-                                <br>Unveiling the strengths and weaknesses of each framework in handling SQL and NoSQL
-                                databases, providing practical insights for developers when choosing between
-                                <strong>Golang</strong> and <strong>Node.js</strong>.
-                            </li>
-                        </ul>
-
-                        <h6 class="mt-4">Why This Thesis Matters?</h6>
-                        <p>
-                            This project combines <em>academic rigor</em> with <em>real-world applicability</em>,
-                            showcasing technical expertise in backend development, performance testing, and cloud
-                            deployment.
-                            It highlights my ability to analyze complex systems and deliver actionable insights—an
-                            essential skill for creating efficient, scalable web applications.
-                        </p>
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mt-8 mb-4">Testing Tools</h6>
+                                    <div class="space-y-2">
+                                        <div class="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-tachometer-alt mr-2 text-xs"></i>
+                                            K6 Performance Testing
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-chart-line mr-2 text-xs"></i>
+                                            CPU Profiling
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-green-50 text-green-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-memory mr-2 text-xs"></i>
+                                            Memory Analysis
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-amber-50 text-amber-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-stopwatch mr-2 text-xs"></i>
+                                            Response Time Metrics
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Right Side Feature Details -->
+                                <div class="md:col-span-3">
+                                    <h6 class="text-xl font-semibold text-gray-800 mb-4">Key Focus Areas</h6>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-rose-100 text-rose-600 mr-3 mt-1">
+                                                    <i class="fas fa-server"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Testing Environment</h3>
+                                                    <p class="text-gray-600 text-sm">Both APIs are deployed on Google Cloud Run, ensuring identical environments to eliminate external factors influencing the results.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3 mt-1">
+                                                    <i class="fas fa-tachometer-alt"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Performance Testing</h3>
+                                                    <p class="text-gray-600 text-sm">Utilizing the K6 tool, tests focus on critical metrics such as iterations per second, CPU utilization, memory consumption, and response times.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-green-100 text-green-600 mr-3 mt-1">
+                                                    <i class="fas fa-link"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">URL Shortener Implementation</h3>
+                                                    <p class="text-gray-600 text-sm">All APIs implement identical URL shortener services to ensure consistent functionality and fair benchmarking across frameworks.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-amber-100 text-amber-600 mr-3 mt-1">
+                                                    <i class="fas fa-database"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Database Comparison</h3>
+                                                    <p class="text-gray-600 text-sm">Side-by-side analysis of SQL (PostgreSQL) and NoSQL (MongoDB) performance with both Gin and Express frameworks.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-rose-50 p-6 rounded-xl border border-rose-100 mb-6">
+                                        <h6 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                                            <i class="fas fa-lightbulb mr-2 text-rose-500"></i>
+                                            Why This Thesis Matters
+                                        </h6>
+                                        <p class="text-gray-700">
+                                            This project combines academic rigor with real-world applicability, showcasing technical expertise in backend development, performance testing, and cloud deployment. It highlights my ability to analyze complex systems and deliver actionable insights—an essential skill for creating efficient, scalable web applications. The findings provide valuable guidance for developers choosing between Golang and Node.js frameworks.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-footer border-0 bg-gray-50">
+                        <button type="button" class="px-5 py-2.5 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- TEMPLATE MODAL -->
-        <!-- <div class="modal fade" id="infoModalTemplate" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="infoModalLabel">App Information</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- Enhanced Footer Section -->
+        <footer class="bg-white rounded-xl shadow-md p-6 mt-10 border-t border-gray-100">
+            <div class="container mx-auto">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-6">
+                    <div class="text-center md:text-left">
+                        <p class="text-gray-500 text-sm">&copy; 2025 Kelana Chandra Helyandika. All rights reserved.</p>
                     </div>
-                    <div class="modal-body">
-                        Detailed information about the app goes here.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    
+                    <div class="text-center md:text-right">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Connect With Me</h4>
+                        <div class="flex justify-center md:justify-end gap-4">
+                            <a href="https://github.com/momokii" target="_blank" aria-label="GitHub Profile" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-all duration-300 hover:-translate-y-1">
+                                <i class="fab fa-github text-lg"></i>
+                            </a>
+                            <a href="https://linkedin.com/in/kelanach" target="_blank" aria-label="LinkedIn Profile" class="w-10 h-10 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center text-blue-700 transition-all duration-300 hover:-translate-y-1">
+                                <i class="fab fa-linkedin-in text-lg"></i>
+                            </a>
+                            <a href="mailto:contact@kelanach.xyz" aria-label="Contact Email" class="w-10 h-10 rounded-full bg-rose-100 hover:bg-rose-200 flex items-center justify-center text-rose-700 transition-all duration-300 hover:-translate-y-1">
+                                <i class="fas fa-envelope text-lg"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div> -->
-
-        <!-- Footer -->
-        <footer class="mt-5 text-center text-muted">
-            <p>&copy; 2025 Kelana Chandra Helyandika. All rights reserved.</p>
         </footer>
     </div>
 
@@ -664,8 +1404,8 @@
                         USER_ID = data.user.id
                         CREDIT_TOKEN = data.user.credit_token
                         LAST_FIRST_LLM_USED = data.user.last_first_llm_used
-                        $('#logged-in').removeClass('d-none')
-                        $('#not-logged-in').addClass('d-none')
+                        $('#logged-in').removeClass('hidden')
+                        $('#not-logged-in').addClass('hidden')
                         $('#username').text(USERNAME)
                         $('#credit-token').text(CREDIT_TOKEN)
                         if (LAST_FIRST_LLM_USED === '') {
@@ -693,8 +1433,8 @@
 
                     } else {
                         // Show not-logged-in content
-                        $('#logged-in').addClass('d-none');
-                        $('#not-logged-in').removeClass('d-none');
+                        $('#logged-in').addClass('hidden');
+                        $('#not-logged-in').removeClass('hidden');
                     }
                 }
 

@@ -70,9 +70,16 @@ func main() {
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Render("dashboard", fiber.Map{
+			"Title": "Application Dashboard - Klan SSO",
+		})
+	})
+
+	app.Get("/home", func(c *fiber.Ctx) error {
+		return c.Render("home", fiber.Map{
 			"Title": "Dashboard - Klan SSO",
 		})
 	})
+
 	// dashboard api get data
 	api.Get("/dashboard", authHandler.CheckAuthDashboard)
 
