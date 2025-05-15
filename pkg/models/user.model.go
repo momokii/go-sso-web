@@ -6,6 +6,8 @@ type User struct {
 	Password         string `json:"password"`
 	CreditToken      int    `json:"credit_token"`
 	LastFirstLLMUsed string `json:"last_first_llm_used"`
+	MultiFAEnabled   bool   `json:"multifa_enabled"`
+	PhoneNumber      string `json:"phone_number"`
 }
 
 type UserSession struct {
@@ -13,11 +15,18 @@ type UserSession struct {
 	Username         string `json:"username"`
 	CreditToken      int    `json:"credit_token"`
 	LastFirstLLMUsed string `json:"last_first_llm_used"`
+	MultiFAEnabled   bool   `json:"multifa_enabled"`
+	PhoneNumber      string `json:"phone_number"`
 }
 
 type UserChangeUsernameInput struct {
 	Id       int    `json:"id"`
 	Username string `json:"username" validate:"required,min=5,max=25,alphanum"`
+}
+
+type UserChangePhoneInput struct {
+	Id          int    `json:"id"`
+	PhoneNumber string `json:"phone_number" validate:"required,min=9,max=15,number"`
 }
 
 type UserChangePasswordInput struct {

@@ -80,6 +80,20 @@ func IsNotAuth(c *fiber.Ctx) error {
 }
 
 func IsAuth(c *fiber.Ctx) error {
+	// new checking, check the is_logged_in status
+	is_logged_in, err := CheckSession(c, "is_logged_in")
+	if err != nil || is_logged_in == nil {
+
+		DeleteSession(c)
+		return c.Redirect("/login")
+	}
+
+	base_url := c.Path()
+	if base_url == "/multifa" && is_logged_in == true {
+		// if is_logged_in is true, redirect to dashboard
+		return c.Redirect("/")
+	}
+
 	userid, err := CheckSession(c, "id")
 	if err != nil {
 		DeleteSession(c)
@@ -136,6 +150,8 @@ func IsAuth(c *fiber.Ctx) error {
 		Username:         userData.Username,
 		CreditToken:      userData.CreditToken,
 		LastFirstLLMUsed: userData.LastFirstLLMUsed,
+		PhoneNumber:      userData.PhoneNumber,
+		MultiFAEnabled:   userData.MultiFAEnabled,
 	}
 
 	// store information for next data

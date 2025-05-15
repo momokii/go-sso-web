@@ -35,11 +35,13 @@ func (r *UserRepo) FindByID(tx *sql.Tx, id int) (*models.User, error) {
 
 	query := `
 		SELECT id, username, password, credit_token, 
-		COALESCE(last_first_llm_used::text, '') as last_first_llm_used 
+		COALESCE(last_first_llm_used::text, '') as last_first_llm_used,
+		COALESCE(phone_number::text, '') as phone_number,
+		multifa_enabled
 		FROM users WHERE id = $1
 	`
 
-	if err := tx.QueryRow(query, id).Scan(&user.Id, &user.Username, &user.Password, &user.CreditToken, &user.LastFirstLLMUsed); err != nil && err != sql.ErrNoRows {
+	if err := tx.QueryRow(query, id).Scan(&user.Id, &user.Username, &user.Password, &user.CreditToken, &user.LastFirstLLMUsed, &user.PhoneNumber, &user.MultiFAEnabled); err != nil && err != sql.ErrNoRows {
 		return &user, err
 	}
 
@@ -49,9 +51,21 @@ func (r *UserRepo) FindByID(tx *sql.Tx, id int) (*models.User, error) {
 func (r *UserRepo) FindByUsername(tx *sql.Tx, username string) (*models.User, error) {
 	var user models.User
 
-	query := "SELECT id, username, password FROM users WHERE username = $1"
+	query := "SELECT id, username, password, COALESCE(phone_number::text, '') as phone_number, multifa_enabled FROM users WHERE username = $1"
 
-	if err := tx.QueryRow(query, username).Scan(&user.Id, &user.Username, &user.Password); err != nil && err != sql.ErrNoRows {
+	if err := tx.QueryRow(query, username).Scan(&user.Id, &user.Username, &user.Password, &user.PhoneNumber, &user.MultiFAEnabled); err != nil && err != sql.ErrNoRows {
+		return &user, err
+	}
+
+	return &user, nil
+}
+
+func (r *UserRepo) FindByPhoneNumber(tx *sql.Tx, phone_number string) (*models.User, error) {
+	var user models.User
+
+	query := "SELECT id, username, password FROM users WHERE phone_number = $1"
+
+	if err := tx.QueryRow(query, phone_number).Scan(&user.Id, &user.Username, &user.Password); err != nil && err != sql.ErrNoRows {
 		return &user, err
 	}
 
@@ -69,9 +83,9 @@ func (r *UserRepo) Create(tx *sql.Tx, user *models.User) error {
 }
 
 func (r *UserRepo) Update(tx *sql.Tx, user *models.User) error {
-	query := "UPDATE users SET username = $1 WHERE id = $2"
+	query := "UPDATE users SET username = $1, phone_number = $2, multifa_enabled = $3 WHERE id = $4"
 
-	if _, err := tx.Exec(query, user.Username, user.Id); err != nil {
+	if _, err := tx.Exec(query, user.Username, user.PhoneNumber, user.MultiFAEnabled, user.Id); err != nil {
 		return err
 	}
 

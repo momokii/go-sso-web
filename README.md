@@ -2,8 +2,8 @@
 
 This repository contains the source code for a **Single Sign-On (SSO) Web Application**. The primary goal of this application is to centralize authentication and session management across multiple web applications through a unified dashboard. Users can seamlessly access various apps without needing to log in multiple times, ensuring a consistent and secure experience.  
 
-## **New Feature: Credit System Integration**
-This project now includes a **credit system** integrated with this SSO authentication. Credit tokens can be used to access features within integrated applications that require LLM usage. The credit system ensures fair usage and allows users to manage their usage effectively.
+## **New Feature: WhatsApp-based MFA Integration**
+This project now includes **Multi-Factor Authentication (MFA)** that users can activate using their phone numbers. When enabled, verification codes are sent via WhatsApp to provide an additional layer of security during login. Currently, the system is configured to work with Indonesian phone numbers only. This MFA implementation enhances security while maintaining a seamless user experience.
 
 ## Features  
 - **Centralized Authentication**: Login once and access multiple applications without re-authentication.  
@@ -15,6 +15,11 @@ This project now includes a **credit system** integrated with this SSO authentic
 - **Credit System Integration**:    
   - Credit tokens can be used to access specific features that require LLM usage.
   - Ensures fair usage and allows users to manage their credits efficiently.
+- **WhatsApp-based MFA**:  
+  - Users can enable two-factor authentication for enhanced account security
+  - Verification codes are sent directly via WhatsApp
+  - Currently configured for Indonesian phone numbers only
+  - Improves security without compromising user experience
 - **Minimalist Frontend**: Built using **HTML**, **Bootstrap**, and **jQuery** for a clean and responsive design.  
 - **Backend Framework**: Powered by **Golang Fiber**, ensuring fast and efficient performance.  
 
