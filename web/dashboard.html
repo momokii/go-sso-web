@@ -411,7 +411,7 @@
         </div>
 
 
-        <!-- Modal for Edit Username -->
+        <!-- Modal for Edit Phone Number -->
         <div class="modal fade" id="editPhoneModal" tabindex="-1" aria-labelledby="editPhoneModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
@@ -440,6 +440,48 @@
                             </div>
                             <button type="submit" class="px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">Edit Phone Number</button>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal for Phone OTP Verification -->
+        <div class="modal fade" id="phoneOtpVerificationModal" tabindex="-1" aria-labelledby="phoneOtpVerificationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                    <div class="modal-header bg-gradient-to-r from-blue-500 to-blue-600 text-white border-0">
+                        <h5 class="modal-title text-lg font-medium" id="phoneOtpVerificationModalLabel">Verify OTP Code</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-6">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-sms text-2xl"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold text-gray-800">Phone Number Verification</h4>
+                            <p class="text-gray-600 mt-2 mb-4">
+                                Enter the verification code sent to your Whatsapp new phone number.
+                            </p>
+                        </div>
+                        
+                        <!-- OTP Input -->
+                        <div class="space-y-4">
+                            <div class="flex justify-center gap-2">
+                                <input type="text" id="otpDigit1" class="w-12 h-12 text-center text-xl font-bold border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code">
+                                <input type="text" id="otpDigit2" class="w-12 h-12 text-center text-xl font-bold border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                                <input type="text" id="otpDigit3" class="w-12 h-12 text-center text-xl font-bold border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                                <input type="text" id="otpDigit4" class="w-12 h-12 text-center text-xl font-bold border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                                <input type="text" id="otpDigit5" class="w-12 h-12 text-center text-xl font-bold border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                                <input type="text" id="otpDigit6" class="w-12 h-12 text-center text-xl font-bold border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                            </div>
+                            <input type="hidden" id="fullOtpInput">
+                            
+                            <div class="mt-8 flex justify-between">
+                                <button type="button" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition-colors text-sm font-medium" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" id="verifyPhoneOtpBtn" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg transition-colors text-sm font-medium">Verify Code</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

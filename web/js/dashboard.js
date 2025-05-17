@@ -1,7 +1,9 @@
 const editPassModal = new bootstrap.Modal($('#editPasswordModal'))
 const editUsernameModal = new bootstrap.Modal($('#editUsernameModal'))
 const toggle2FAConfirmModal = new bootstrap.Modal($('#toggle2FAConfirmModal'))
+const editPhoneModal = new bootstrap.Modal($('#editPhoneModal'))
 const resetPhoneModal = new bootstrap.Modal($('#resetPhoneModal'))
+const phoneOtpVerificationModal = new bootstrap.Modal($('#phoneOtpVerificationModal'))
 let USERNAME = ""
 let USER_ID = 0
 let IS_LOGGED_IN = false
@@ -10,6 +12,53 @@ let LAST_FIRST_LLM_USED = ''
 let PHONE_NUMBER = ''
 let STATUS2FA = false
 let USING2FA = false
+let TEMP_NUMBER_CHANGE = ''
+
+// OTP input handling
+function setupOtpInputs() {
+    const inputs = document.querySelectorAll('#phoneOtpVerificationModal input[type="text"]');
+    const hiddenInput = document.getElementById('fullOtpInput');
+    
+    inputs.forEach((input, index) => {
+        // Auto-focus to next input when a digit is entered
+        input.addEventListener('input', function(e) {
+            const value = e.target.value;
+            
+            if (value.length === 1) {
+                if (index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+                
+                // Update the hidden input with all values
+                hiddenInput.value = Array.from(inputs).map(input => input.value).join('');
+            }
+        });
+        
+        // Handle backspace key
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && !e.target.value) {
+                if (index > 0) {
+                    inputs[index - 1].focus();
+                }
+            }
+        });
+        
+        // Handle paste event
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const paste = (e.clipboardData || window.clipboardData).getData('text');
+            
+            if (paste.match(/^\d+$/) && paste.length === inputs.length) {
+                // If pasted content is a numeric string with correct length
+                for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].value = paste[i];
+                }
+                hiddenInput.value = paste;
+                inputs[inputs.length - 1].focus();
+            }
+        });
+    });
+}
 
 async function redirectAuth(app_name) {
     event.preventDefault()
@@ -280,10 +329,42 @@ $('document').ready(async function () {
         }
     })
 
+    async function sendOTPEditPhoneNumber(phoneNumber) {
+            const response = await fetch("/api/users/phone/otp", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    phone_number: phoneNumber
+                })
+            })
+            const resp = await response.json()
+
+            return resp
+    }
+
+    async function verifyOTPAndEditPhoneNumber(otp_code, phoneNumber) {
+        const response = await fetch("/api/users/phone", {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                otp_code: otp_code,
+                phone_number: phoneNumber
+            })
+        })
+        const resp = await response.json()
+
+        return resp
+    }
+
     $('#editPhoneForm').submit(async function () {
         event.preventDefault()
 
         const phoneNumber = $('#phoneNumberEditInput').val().trim()
+        TEMP_NUMBER_CHANGE = phoneNumber
 
         // check phone number for now must start with 8
         if (phoneNumber[0] !== '8') {
@@ -291,35 +372,78 @@ $('document').ready(async function () {
             return
         }
 
+        if (phoneNumber === PHONE_NUMBER) {
+            showInfoModal('Phone number is the same as before', 'Edit Phone Number Success')
+            return
+        }
+
         showLoader()
 
         try {
-            const response = await fetch("/api/users/phone", {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: parseInt(USER_ID),
-                    phone_number: phoneNumber
-                })
-            })
-            const resp = await response.json()
+            const sendOTPNum = await sendOTPEditPhoneNumber(phoneNumber)
+            if (sendOTPNum.error) throw new Error(sendOTPNum.message)
+            
+            // Hide the phone edit modal and show OTP verification modal
+            editPhoneModal.hide()
+            
+            // Reset OTP inputs before showing modal
+            const otpInputs = document.querySelectorAll('#phoneOtpVerificationModal input[type="text"]');
+            otpInputs.forEach(input => input.value = '');
+            document.getElementById('fullOtpInput').value = '';
+            
+            // Setup OTP input behavior
+            setupOtpInputs();
+            
+            // Show the OTP verification modal
+            phoneOtpVerificationModal.show();
+            
+            // Focus on the first input
+            otpInputs[0].focus();
 
-            if (resp.error) throw new Error(resp.message)
-
+            // reset the phone number input
+            $('#phoneNumberEditInput').val('')
+            
             hideLoader()
-            showInfoModal('Success edit phone number', 'Edit Phone Number Success')
-            setTimeout(() => {
-                window.location.reload()
-            }, 1000)
 
         } catch (e) {
-            showInfoModal('Failed to edit phone number: ' + e.message, 'Edit Phone Number Failed')
+            showInfoModal('Failed to send OTP: ' + e.message, 'Edit Phone Number Failed')
             hideLoader()
         }
+    })
 
+    // Verify phone OTP handler
+    $('#verifyPhoneOtpBtn').click(async function() {
+        const otpCode = document.getElementById('fullOtpInput').value
+        
+        if (otpCode.length !== 6 || !/^\d+$/.test(otpCode)) {
+            showInfoModal('Please enter a valid 6-digit OTP code', 'Verification Failed')
+            return
+        }
+        
+        showLoader()
+        
+        try {
+            // check the otp verification and edit the phone number
+            const updateResp = await verifyOTPAndEditPhoneNumber(otpCode, TEMP_NUMBER_CHANGE);
+            
+            if (updateResp.error) throw new Error(updateResp.message)
 
+            // Close the OTP modal
+            phoneOtpVerificationModal.hide()
+            
+            // Show success message
+            showInfoModal('Phone number updated successfully!', 'Success')
+            
+            // Reload page after a short delay
+            setTimeout(() => {
+                window.location.reload()
+            }, 1500)
+            
+        } catch (e) {
+            showInfoModal('Verification failed: ' + e.message, 'Verification Failed')
+        } finally {
+            hideLoader()
+        }
     })
 
     // edit password

@@ -34,3 +34,12 @@ type UserChangePasswordInput struct {
 	Password    string `json:"password" validate:"required"`
 	NewPassword string `json:"new_password" validate:"required,min=6,max=50,containsany=1234567890,containsany=QWERTYUIOPASDFGHJKLZXCVBNM"`
 }
+
+type UserChangePhoneSendOTPInput struct {
+	PhoneNumber string `json:"phone_number" validate:"required,min=9,max=15,number"`
+}
+
+type UserEditPhoneVerifyOTPInput struct {
+	OTPCode     string `json:"otp_code" validate:"required"`
+	PhoneNumber string `json:"phone_number" validate:"required,min=9,max=15,number"`
+}

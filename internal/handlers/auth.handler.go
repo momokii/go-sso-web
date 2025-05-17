@@ -51,11 +51,12 @@ func NewAuthHandler(userRepo user.UserRepo, sessionRepo session.SessionRepo, Otp
 }
 
 // * ================================= API HELPER FUNCTION
-func (h *AuthHandler) createAndClearUserOTP(tx *sql.Tx, user_id int) (string, string, error) {
+func (h *AuthHandler) createAndClearUserOTP(tx *sql.Tx, user_id int, purpose modelsPkg.OtpPurpose) (string, string, error) {
 
 	// trying delete all otp data for this user
 	otp_data := &modelsPkg.UserOtps{
-		UserId: user_id,
+		UserId:  user_id,
+		Purpose: purpose,
 	}
 
 	// delete all otp data for this user
@@ -81,6 +82,24 @@ func (h *AuthHandler) LoginView(c *fiber.Ctx) error {
 func (h *AuthHandler) SignUpView(c *fiber.Ctx) error {
 	return c.Render("signup", fiber.Map{
 		"Title": "SignUp - Klan SSO",
+	})
+}
+
+func (h *AuthHandler) MultiFAView(c *fiber.Ctx) error {
+	return c.Render("2fa", fiber.Map{
+		"Title": "Klan SSO - 2FA Verification",
+	})
+}
+
+func (h *AuthHandler) DashboardView(c *fiber.Ctx) error {
+	return c.Render("dashboard", fiber.Map{
+		"Title": "Application Dashboard - Klan SSO",
+	})
+}
+
+func (h *AuthHandler) LandingPageView(c *fiber.Ctx) error {
+	return c.Render("home", fiber.Map{
+		"Title": "Dashboard - Klan SSO",
 	})
 }
 
@@ -186,7 +205,7 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 		}
 
 		// proceed here to MFA code to create and clear the old otp code in database
-		otp_code, otp_hash, err := h.createAndClearUserOTP(tx, userLog.Id)
+		otp_code, otp_hash, err := h.createAndClearUserOTP(tx, userLog.Id, modelsPkg.OTPPurpose_TwoFactorAuth)
 		if err != nil {
 			return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 		}
@@ -381,7 +400,7 @@ func (h *AuthHandler) CheckAuthDashboard(c *fiber.Ctx) error {
 	})
 }
 
-func (h *AuthHandler) Verify2FA(c *fiber.Ctx) error {
+func (h *AuthHandler) Verify2FALogin(c *fiber.Ctx) error {
 
 	user := c.Locals("user").(modelsPkg.UserSession)
 
@@ -418,7 +437,7 @@ func (h *AuthHandler) Verify2FA(c *fiber.Ctx) error {
 	}
 
 	//  get latest otp data
-	otp_data, err := h.OtpRepo.GetNewest(tx, user.Id)
+	otp_data, err := h.OtpRepo.GetNewest(tx, user.Id, modelsPkg.OTPPurpose_TwoFactorAuth)
 	if err != nil {
 		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 	}
@@ -488,7 +507,7 @@ func (h *AuthHandler) Resend2FA(c *fiber.Ctx) error {
 	}
 
 	// user valid so first one delete all otp data for this user and create new otp data
-	otp_code, otp_hash, err := h.createAndClearUserOTP(tx, user.Id)
+	otp_code, otp_hash, err := h.createAndClearUserOTP(tx, user.Id, modelsPkg.OTPPurpose_TwoFactorAuth)
 	if err != nil {
 		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 	}
@@ -513,6 +532,176 @@ func (h *AuthHandler) Resend2FA(c *fiber.Ctx) error {
 	}
 
 	return utils.ResponseMessage(c, fiber.StatusOK, "Resend 2FA success")
+}
+
+func (h *AuthHandler) SendOTPEditPhone(c *fiber.Ctx) error {
+
+	user := c.Locals("user").(modelsPkg.UserSession)
+
+	// get user input
+	new_number := new(modelsPkg.UserChangePhoneSendOTPInput)
+	if err := c.BodyParser(new_number); err != nil {
+		return utils.ResponseError(c, fiber.StatusBadRequest, "Invalid request")
+	}
+
+	if err := utils.ValidateStruct(new_number); err != nil {
+		for _, err := range err.(validator.ValidationErrors) {
+			switch err.Field() {
+			case "PhoneNumber":
+				return utils.ResponseError(c, fiber.StatusBadRequest, "Phone number must be numeric and between 6-15 characters")
+			}
+		}
+	}
+
+	tx, err := database.DB.Begin()
+	if err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+	defer func() {
+		database.CommitOrRollback(tx, c, err)
+	}()
+
+	// get user id from session for verification
+	user_data, err := h.userRepo.FindByID(tx, user.Id)
+	if err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+
+	if user_data.Id == 0 || user_data.Id != user.Id {
+		return utils.ResponseError(c, fiber.StatusUnauthorized, "Invalid user")
+	}
+
+	// check if the phone number already exist
+	user_check, err := h.userRepo.FindByPhoneNumber(tx, new_number.PhoneNumber)
+	if err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+
+	if user_check.Id != 0 && user_check.Id != user_data.Id {
+		return utils.ResponseError(c, fiber.StatusBadRequest, "Phone number already exist")
+	}
+
+	// create new otp
+	otp_code, otp_hash, err := h.createAndClearUserOTP(tx, user.Id, modelsPkg.OTPPurpose_PhoneVerification)
+	if err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+
+	// save the otp hash to database
+	if err := h.OtpRepo.Create(tx, &modelsPkg.UserOtps{
+		UserId:    user_data.Id,
+		Purpose:   modelsPkg.OTPPurpose_PhoneVerification,
+		Channel:   modelsPkg.OTPChannel_Whatsapp,
+		CodeHash:  otp_hash,
+		ExpiresAt: time.Now().Add(OTP_EXPIRES).Format(time.RFC3339),
+		CreatedAt: time.Now().Format(time.RFC3339),
+	}); err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+
+	// send the otp code to user
+	user_number := COUNTRY_CODE + new_number.PhoneNumber
+	if err := utils.SendOTPMessage(user_number, otp_code); err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+
+	return utils.ResponseMessage(c, fiber.StatusOK, "Send OTP Edit Phone success")
+}
+
+func (h *AuthHandler) Verify2FAAndEditPhone(c *fiber.Ctx) error {
+
+	user := c.Locals("user").(modelsPkg.UserSession)
+
+	verify_input := new(modelsPkg.UserEditPhoneVerifyOTPInput)
+	if err := c.BodyParser(verify_input); err != nil {
+		return utils.ResponseError(c, fiber.StatusBadRequest, "Invalid request")
+	}
+
+	if err := utils.ValidateStruct(verify_input); err != nil {
+		for _, err := range err.(validator.ValidationErrors) {
+			switch err.Field() {
+			case "PhoneNumber":
+				return utils.ResponseError(c, fiber.StatusBadRequest, "Phone number must be numeric and between 6-15 characters")
+			case "Otp":
+				return utils.ResponseError(c, fiber.StatusBadRequest, "Invalid request, otp cannot be empty")
+			}
+		}
+	}
+
+	tx, err := database.DB.Begin()
+	if err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+	defer func() {
+		database.CommitOrRollback(tx, c, err)
+	}()
+
+	// check user
+	user_data, err := h.userRepo.FindByID(tx, user.Id)
+	if err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+
+	if user_data.Id == 0 || user_data.Id != user.Id {
+		return utils.ResponseError(c, fiber.StatusUnauthorized, "Invalid user")
+	}
+
+	// get latest otp data
+	otp_data, err := h.OtpRepo.GetNewest(tx, user.Id, modelsPkg.OTPPurpose_PhoneVerification)
+	if err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+
+	if otp_data.Id == 0 || otp_data.UserId != user.Id {
+		return utils.ResponseError(c, fiber.StatusUnauthorized, "Invalid OTP code")
+	}
+
+	// check validation otp code
+	isOtpValid, err := utils.VerifyOTPHash(verify_input.OTPCode, otp_data.CodeHash, OTP_SECRET_KEY)
+	if err != nil {
+		return utils.ResponseError(c, fiber.StatusUnauthorized, err.Error())
+	}
+
+	if !isOtpValid {
+		return utils.ResponseError(c, fiber.StatusUnauthorized, "Invalid OTP code")
+	}
+
+	// if otp is valid, check if the otp is expired
+	if otp_data.ExpiresAt < time.Now().Format(time.RFC3339) {
+		return utils.ResponseError(c, fiber.StatusUnauthorized, "OTP code expired")
+	}
+
+	// if is valid, update the otp data to used
+	if err := h.OtpRepo.Update(tx, &modelsPkg.UserOtps{
+		Id:     otp_data.Id,
+		UserId: otp_data.UserId,
+		Used:   true,
+		UsedAt: time.Now().Format(time.RFC3339),
+	}); err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+
+	// lastly update the user phone number, first check if the phone number already exist
+	user_check, err := h.userRepo.FindByPhoneNumber(tx, verify_input.PhoneNumber)
+	if err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+
+	if user_check.Id != 0 && user_check.Id != user_data.Id {
+		return utils.ResponseError(c, fiber.StatusBadRequest, "Phone number already exist")
+	}
+
+	// update the user phone number
+	if err := h.userRepo.Update(tx, &modelsPkg.User{
+		Id:             user_data.Id,
+		PhoneNumber:    verify_input.PhoneNumber,
+		Username:       user_data.Username,
+		MultiFAEnabled: user_data.MultiFAEnabled,
+	}); err != nil {
+		return utils.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+	}
+
+	return utils.ResponseMessage(c, fiber.StatusOK, "Verify 2FA Edit Phone success")
 }
 
 func (h *AuthHandler) Logout(c *fiber.Ctx) error {

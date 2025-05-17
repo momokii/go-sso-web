@@ -12,10 +12,10 @@ func NewUserOTPRepo() *UserOTPRepo {
 	return &UserOTPRepo{}
 }
 
-func (r *UserOTPRepo) GetNewest(tx *sql.Tx, id int) (*models.UserOtps, error) {
-	query := "SELECT id, user_id, purpose, channel, code_hash, created_at, expires_at, used, COALESCE(used_at::text, '') as used_at FROM user_otps WHERE user_id = $1 AND used = false ORDER BY created_at DESC LIMIT 1"
+func (r *UserOTPRepo) GetNewest(tx *sql.Tx, id int, purpose models.OtpPurpose) (*models.UserOtps, error) {
+	query := "SELECT id, user_id, purpose, channel, code_hash, created_at, expires_at, used, COALESCE(used_at::text, '') as used_at FROM user_otps WHERE user_id = $1 AND used = false AND purpose = $2 ORDER BY created_at DESC LIMIT 1"
 
-	row := tx.QueryRow(query, id)
+	row := tx.QueryRow(query, id, purpose)
 
 	otp := &models.UserOtps{}
 	if err := row.Scan(&otp.Id, &otp.UserId, &otp.Purpose, &otp.Channel, &otp.CodeHash, &otp.CreatedAt, &otp.ExpiresAt, &otp.Used, &otp.UsedAt); err != nil {
@@ -49,9 +49,9 @@ func (r *UserOTPRepo) Update(tx *sql.Tx, otp_update *models.UserOtps) error {
 
 func (r *UserOTPRepo) DeletesByUserId(tx *sql.Tx, otp_data *models.UserOtps) error {
 
-	query := "DELETE FROM user_otps WHERE user_id = $1"
+	query := "DELETE FROM user_otps WHERE user_id = $1 and purpose = $2"
 
-	if _, err := tx.Exec(query, otp_data.UserId); err != nil {
+	if _, err := tx.Exec(query, otp_data.UserId, otp_data.Purpose); err != nil {
 		return err
 	}
 

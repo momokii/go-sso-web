@@ -108,78 +108,78 @@ func (h *UserHandler) ResetPhoneNumber(c *fiber.Ctx) error {
 	return utils.ResponseMessage(c, fiber.StatusOK, "Success Change 2FA Status")
 }
 
-func (h *UserHandler) ChangePhoneNumber(c *fiber.Ctx) error {
+// func (h *UserHandler) ChangePhoneNumber(c *fiber.Ctx) error {
 
-	user := c.Locals("user").(models.UserSession)
+// 	user := c.Locals("user").(models.UserSession)
 
-	userInput := new(models.UserChangePhoneInput)
-	if err := c.BodyParser(&userInput); err != nil {
-		return utils.ResponseError(c, fiber.StatusBadRequest, "Invalid request")
-	}
+// 	userInput := new(models.UserChangePhoneInput)
+// 	if err := c.BodyParser(&userInput); err != nil {
+// 		return utils.ResponseError(c, fiber.StatusBadRequest, "Invalid request")
+// 	}
 
-	if err := utils.ValidateStruct(userInput); err != nil {
-		for _, err := range err.(validator.ValidationErrors) {
-			switch err.Field() {
-			case "Id":
-				return utils.ResponseError(c, fiber.StatusBadRequest, "Invalid request, invalid id")
-			case "PhoneNumber":
-				return utils.ResponseError(c, fiber.StatusBadRequest, "Phone number must be filled and valid")
-			}
-		}
-	}
+// 	if err := utils.ValidateStruct(userInput); err != nil {
+// 		for _, err := range err.(validator.ValidationErrors) {
+// 			switch err.Field() {
+// 			case "Id":
+// 				return utils.ResponseError(c, fiber.StatusBadRequest, "Invalid request, invalid id")
+// 			case "PhoneNumber":
+// 				return utils.ResponseError(c, fiber.StatusBadRequest, "Phone number must be filled and valid")
+// 			}
+// 		}
+// 	}
 
-	tx, err := database.DB.Begin()
-	if err != nil {
-		return utils.ResponseError(c, fiber.StatusInternalServerError, "Failed to start transaction")
-	}
-	defer func() {
-		database.CommitOrRollback(tx, c, err)
-	}()
+// 	tx, err := database.DB.Begin()
+// 	if err != nil {
+// 		return utils.ResponseError(c, fiber.StatusInternalServerError, "Failed to start transaction")
+// 	}
+// 	defer func() {
+// 		database.CommitOrRollback(tx, c, err)
+// 	}()
 
-	user_data, err := h.userRepo.FindByID(tx, user.Id)
-	if err != nil {
-		return utils.ResponseError(c, fiber.StatusInternalServerError, "Failed to check user")
-	}
+// 	user_data, err := h.userRepo.FindByID(tx, user.Id)
+// 	if err != nil {
+// 		return utils.ResponseError(c, fiber.StatusInternalServerError, "Failed to check user")
+// 	}
 
-	// check user validity by input data
-	if user_data.Id == 0 {
-		return utils.ResponseError(c, fiber.StatusBadRequest, "User not found")
-	}
+// 	// check user validity by input data
+// 	if user_data.Id == 0 {
+// 		return utils.ResponseError(c, fiber.StatusBadRequest, "User not found")
+// 	}
 
-	if user_data.Id != user.Id {
-		return utils.ResponseError(c, fiber.StatusBadRequest, "Invalid request")
-	}
+// 	if user_data.Id != user.Id {
+// 		return utils.ResponseError(c, fiber.StatusBadRequest, "Invalid request")
+// 	}
 
-	// if phone number input just same as before just return it success
-	if user_data.PhoneNumber == userInput.PhoneNumber {
-		return utils.ResponseMessage(c, fiber.StatusOK, "Success Change Phone Number")
-	}
+// 	// if phone number input just same as before just return it success
+// 	if user_data.PhoneNumber == userInput.PhoneNumber {
+// 		return utils.ResponseMessage(c, fiber.StatusOK, "Success Change Phone Number")
+// 	}
 
-	// if different so, check if phone number already exist
-	user_check_number, err := h.userRepo.FindByPhoneNumber(tx, userInput.PhoneNumber)
-	if err != nil {
-		return utils.ResponseError(c, fiber.StatusInternalServerError, "Failed to check phone number")
-	}
+// 	// if different so, check if phone number already exist
+// 	user_check_number, err := h.userRepo.FindByPhoneNumber(tx, userInput.PhoneNumber)
+// 	if err != nil {
+// 		return utils.ResponseError(c, fiber.StatusInternalServerError, "Failed to check phone number")
+// 	}
 
-	// if user_check_number is is different and is not 0 so the data is exist, failed the request
-	if user_check_number.Id != 0 && user_check_number.Id != user_data.Id {
-		return utils.ResponseError(c, fiber.StatusBadRequest, "Phone number already registered on another account")
-	}
+// 	// if user_check_number is is different and is not 0 so the data is exist, failed the request
+// 	if user_check_number.Id != 0 && user_check_number.Id != user_data.Id {
+// 		return utils.ResponseError(c, fiber.StatusBadRequest, "Phone number already registered on another account")
+// 	}
 
-	// else here, so maybe if user just using "" so just update the phone number to "" and return success
-	updateUser := models.User{
-		Id:             user.Id,
-		Username:       user.Username,
-		PhoneNumber:    userInput.PhoneNumber,
-		MultiFAEnabled: user_data.MultiFAEnabled,
-	}
+// 	// else here, so maybe if user just using "" so just update the phone number to "" and return success
+// 	updateUser := models.User{
+// 		Id:             user.Id,
+// 		Username:       user.Username,
+// 		PhoneNumber:    userInput.PhoneNumber,
+// 		MultiFAEnabled: user_data.MultiFAEnabled,
+// 	}
 
-	if err := h.userRepo.Update(tx, &updateUser); err != nil {
-		return utils.ResponseError(c, fiber.StatusInternalServerError, "Failed to change phone number")
-	}
+// 	if err := h.userRepo.Update(tx, &updateUser); err != nil {
+// 		return utils.ResponseError(c, fiber.StatusInternalServerError, "Failed to change phone number")
+// 	}
 
-	return utils.ResponseMessage(c, fiber.StatusOK, "Success Change Phone Number")
-}
+// 	return utils.ResponseMessage(c, fiber.StatusOK, "Success Change Phone Number")
+// }
 
 func (h *UserHandler) ChangeUsername(c *fiber.Ctx) error {
 	// var txError error

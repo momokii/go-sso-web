@@ -70,23 +70,10 @@ func main() {
 	app.Use(logger.New())
 	app.Static("/web", "./web")
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("dashboard", fiber.Map{
-			"Title": "Application Dashboard - Klan SSO",
-		})
-	})
-
-	app.Get("/multifa", middlewares.IsAuth, func(c *fiber.Ctx) error {
-		return c.Render("2fa", fiber.Map{
-			"Title": "Klan SSO - 2FA Verification",
-		})
-	})
-
-	app.Get("/home", func(c *fiber.Ctx) error {
-		return c.Render("home", fiber.Map{
-			"Title": "Dashboard - Klan SSO",
-		})
-	})
+	// pages
+	app.Get("/", authHandler.DashboardView)
+	app.Get("/multifa", middlewares.IsAuth, authHandler.MultiFAView)
+	app.Get("/home", authHandler.LandingPageView)
 
 	// dashboard api get data
 	api.Get("/dashboard", authHandler.CheckAuthDashboard)
@@ -95,7 +82,7 @@ func main() {
 	api.Get("/redirect", middlewares.IsAuth, authHandler.RedirectRequest)
 
 	// otp
-	api.Post("/multifa/verify", middlewares.IsAuth, authHandler.Verify2FA)
+	api.Post("/multifa/verify", middlewares.IsAuth, authHandler.Verify2FALogin)
 	api.Post("/multifa/resend", middlewares.IsAuth, authHandler.Resend2FA)
 
 	app.Get("/login", middlewares.IsNotAuth, authHandler.LoginView)
@@ -107,9 +94,10 @@ func main() {
 	api.Post("/logout", authHandler.Logout)
 
 	// user
+	api.Post("/users/phone/otp", middlewares.IsAuth, authHandler.SendOTPEditPhone)
 	api.Patch("/users", middlewares.IsAuth, userHandler.ChangeUsername)
 	api.Patch("/users/phone/reset", middlewares.IsAuth, userHandler.ResetPhoneNumber)
-	api.Patch("/users/phone", middlewares.IsAuth, userHandler.ChangePhoneNumber)
+	api.Patch("/users/phone", middlewares.IsAuth, authHandler.Verify2FAAndEditPhone)
 	api.Patch("/users/2fa", middlewares.IsAuth, userHandler.Change2FAStatus)
 	api.Patch("/users/password", middlewares.IsAuth, userHandler.ChangePassword)
 
