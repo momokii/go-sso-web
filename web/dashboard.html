@@ -195,6 +195,37 @@
 
         <!-- Applications Section (Enhanced) -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+
+            <!-- Codecheck Project -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-purple-100">
+                <div class="h-3 bg-gradient-to-r from-purple-400 to-violet-500"></div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h5 class="text-xl font-bold text-gray-800 flex items-center">
+                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100 text-purple-600 mr-3">
+                                <i class="fas fa-shield-alt text-lg"></i>
+                            </span>
+                            Codecheck
+                        </h5>
+                        <span class="bg-purple-100 text-purple-700 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
+                            <i class="fas fa-desktop mr-1 text-xs"></i>
+                            Desktop App
+                        </span>
+                    </div>
+                    <p class="text-gray-600 mb-6 h-24 overflow-hidden text-sm">
+                        A comprehensive desktop application for automated security vulnerability scanning and code analysis, built with Wails framework. Provides intuitive interface for managing repositories, performing security scans using Semgrep, and analyzing vulnerability trends over time.
+                    </p>
+                    <div class="flex justify-between mt-auto pt-4 border-t border-gray-100">
+                        <button class="px-4 py-2 text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-300 flex items-center" data-bs-toggle="modal" data-bs-target="#infoModalCodecheck">
+                            <i class="fas fa-info-circle mr-2"></i> Details
+                        </button>
+                        <a href="https://codecheck.kelanach.xyz" target="_blank" class="px-4 py-2 text-sm bg-gradient-to-r from-purple-500 to-violet-500 hover:from-purple-600 hover:to-violet-600 text-white rounded-lg transition-colors duration-300 shadow-sm hover:shadow flex items-center">
+                            <i class="fas fa-external-link-alt mr-2"></i> Visit
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <!-- Echo-Notes -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-blue-100">
                 <div class="h-3 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
@@ -348,7 +379,7 @@
                 </div>
             </div>
 
-            <!-- GinVExpress -->
+            <!-- Thesis Project -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-rose-100">
                 <div class="h-3 bg-gradient-to-r from-rose-400 to-red-500"></div>
                 <div class="p-6">
@@ -1484,6 +1515,159 @@
                     </div>
                     <div class="modal-footer border-0 bg-gray-50">
                         <button type="button" class="px-5 py-2.5 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- CODECHECK MODAL POP UP INFORMATION-->
+        <div class="modal fade" id="infoModalCodecheck" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                    <div class="modal-header bg-gradient-to-r from-purple-500 to-violet-600 text-white border-0">
+                        <h5 class="modal-title text-lg font-medium" id="infoModalLabel">Go CodeCheck Desktop - Security Analysis Tool</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <!-- Visual Header -->
+                        <div class="bg-gradient-to-r from-purple-50 to-violet-50 p-8 border-b border-gray-100">
+                            <div class="flex flex-col md:flex-row items-center gap-6">
+                                <div class="flex-shrink-0">
+                                    <div class="w-20 h-20 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 text-3xl shadow-md">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="text-center w-full">
+                                    <h5 class="text-2xl font-bold text-gray-800 mb-2">Go CodeCheck Desktop</h5>
+                                    <p class="text-gray-600 max-w-2xl mx-auto">A comprehensive desktop application for automated security vulnerability scanning and code analysis, built with the Wails framework for cross-platform compatibility.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Content Area -->
+                        <div class="p-8">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                                <!-- Left Side Tech Stack -->
+                                <div class="md:col-span-1">
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mb-4">Technologies</h6>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+                                                <i class="fab fa-golang"></i>
+                                            </span>
+                                            <span>Go Backend</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-orange-100 text-orange-600 mr-3">
+                                                <i class="fab fa-js-square"></i>
+                                            </span>
+                                            <span>Svelte Frontend</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 text-gray-600 mr-3">
+                                                <i class="fas fa-database"></i>
+                                            </span>
+                                            <span>SQLite Database</span>
+                                        </li>
+                                        <li class="flex items-center text-gray-700">
+                                            <span class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+                                                <i class="fab fa-docker"></i>
+                                            </span>
+                                            <span>Docker & Semgrep</span>
+                                        </li>
+                                    </ul>
+
+                                    <h6 class="text-sm uppercase font-bold text-gray-500 tracking-wider mt-8 mb-4">Key Features</h6>
+                                    <div class="space-y-2">
+                                        <div class="px-3 py-1.5 rounded-lg bg-purple-50 text-purple-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-shield-alt mr-2 text-xs"></i>
+                                            Security Scanning
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-green-50 text-green-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-folder mr-2 text-xs"></i>
+                                            Repository Management
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-chart-line mr-2 text-xs"></i>
+                                            Vulnerability Tracking
+                                        </div>
+                                        <div class="px-3 py-1.5 rounded-lg bg-amber-50 text-amber-700 text-sm inline-flex items-center">
+                                            <i class="fas fa-history mr-2 text-xs"></i>
+                                            Scan Comparison
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Right Side Feature Details -->
+                                <div class="md:col-span-3">
+                                    <h6 class="text-xl font-semibold text-gray-800 mb-4">Core Capabilities</h6>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 mr-3 mt-1">
+                                                    <i class="fas fa-user-shield"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Authentication & Security</h3>
+                                                    <p class="text-gray-600 text-sm">Secure session-based authentication with mandatory password changes and professional error handling for enhanced user experience.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-green-100 text-green-600 mr-3 mt-1">
+                                                    <i class="fas fa-folder-open"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Repository Management</h3>
+                                                    <p class="text-gray-600 text-sm">Complete CRUD operations with path validation, search & filter capabilities, and advanced pagination for large repository collections.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-red-100 text-red-600 mr-3 mt-1">
+                                                    <i class="fas fa-bug"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Security Scanning Engine</h3>
+                                                    <p class="text-gray-600 text-sm">Powered by Semgrep with Docker-based execution, automated dependency management, and real-time scan progress tracking.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all">
+                                            <div class="flex items-start">
+                                                <span class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3 mt-1">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                </span>
+                                                <div>
+                                                    <h3 class="font-semibold text-gray-800 mb-1">Advanced Analytics</h3>
+                                                    <p class="text-gray-600 text-sm">Comprehensive scan history with detailed vulnerability reports, side-by-side comparison, and trend analysis for security improvements.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-purple-50 p-6 rounded-xl border border-purple-100 mb-6">
+                                        <h6 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                                            <i class="fas fa-lightbulb mr-2 text-purple-500"></i>
+                                            Why CodeCheck Matters
+                                        </h6>
+                                        <p class="text-gray-700">
+                                            This desktop application democratizes code security by providing developers with enterprise-grade security scanning capabilities in an intuitive, cross-platform interface. By leveraging Semgrep's powerful analysis engine with modern UI/UX design, it bridges the gap between complex security tools and everyday development workflows, making security analysis accessible to developers of all skill levels.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 bg-gray-50">
+                        <button type="button" class="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
